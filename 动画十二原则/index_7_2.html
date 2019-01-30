@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+/******* SEVEN B (Arc) *******/
+
+.sevenb .shape.a {
+  animation: sevenb 3s infinite linear;
+  top: calc(50% - 2em);
+  left: calc(50% - 9em);
+  transform-origin: 10em 50%;
+}
+.sevenb .shape.b {
+  animation: sevenb 6s infinite linear reverse;
+  background-color: yellow;
+  width: 2em;
+  height: 2em;
+  left: calc(50% - 1em);
+  top: calc(50% - 1em);
+}
+
+@keyframes sevenb {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+/* General styling */
+body {
+  margin: 0;
+  background: #e9b59f;
+  font-family: HelveticaNeue, Arial, Sans-serif;
+  color: #fff;
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: 300;
+}
+
+h2 {
+  font-size: 0.75em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+.principle {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.shape {
+  background: #2d97db;
+  border: 1em solid #fff;
+  width: 4em;
+  height: 4em;
+  position: absolute;
+  top: calc(50% - 2em);
+  left: calc(50% - 2em);
+}
+	</style>
+</head>
+<body>
+	<h1>弧线运动 (Arc)</h1>
+	<article class="principle sevenb">
+    	<div class="shape a"></div>
+    	<div class="shape b"></div>
+  	</article>
+</body>
+</html>
