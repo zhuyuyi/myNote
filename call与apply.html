@@ -45,15 +45,20 @@
 		// });
 		// book.year = 2005;
 
-		var book1 = {
-			name:'ztyy',
-			getName:function(){
-				setTimeout(function(){
-					console.log(this)
-				},0)
-			}
-		}
-		book1.getName();
+		// var book1 = {
+		// 	name:'ztyy',
+		// 	getName:function(){
+		// 		setTimeout(function(){
+		// 			console.log(this)
+		// 		},0)
+		// 	}
+		// }
+		// book1.getName();
+			var a = [1,2,3];
+			a.forEach(function(){
+				console.log(this);
+			})
+
 
 	</script>
 </body>

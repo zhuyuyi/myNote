@@ -19,7 +19,7 @@ alert(person.name); // zyy
 ```
 
 ```
-未完待续
+具体使用在 vue 双向绑定中
 
 
 
