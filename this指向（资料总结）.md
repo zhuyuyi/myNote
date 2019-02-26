@@ -61,6 +61,10 @@ call()、apply()、bind(),详情请见同级目录下 call 与 aplly html 以及
 
 ###### new绑定
 
+this绑定的是新创建的对象
+
+###### 绑定规则
+
 1. 函数是否是new绑定？如果是，this绑定的是新创建的对象。
 ```
 var bar = new Foo();  
