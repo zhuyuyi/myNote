@@ -1,7 +1,7 @@
 ### Object.defineProperty
 
 四个默认属性，configurable、enumerable、writeable、value
-```
+```javascript
 var person = {};
 Object.defineProperty(person,'name',{
     configurable:false, // 无法修改属性值,默认为false,如果第一次设置为false，之后再怎么设置它都会报错。
@@ -16,7 +16,7 @@ alert(person.name); // zyy
 
 在读取访问器属性时，会调用 getter 函数，在写入访问器属性时，会调用 setter 函数，
 
-```
+```javascript
 
 ```
 具体使用在 vue 双向绑定中

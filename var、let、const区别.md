@@ -6,7 +6,7 @@
 5.let、const声明的全局变量不会挂在顶层对象下面
 
 暂时性死区说明：
-```
+```javascript
 var tmp = 123; // 声明
 if (true) {
   tmp = 'abc'; // 报错 因为本区域有tmp声明变量

@@ -1,6 +1,6 @@
 ### new 运算符
 
-```
+```javascript
 var obj  = {};
 obj.__proto__ = F.prototype;
 F.call(obj);
