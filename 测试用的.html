@@ -96,16 +96,39 @@
         // new new Foo().getName(); // 3
 
 
+        // demo01
 
-        function foo() {
-            setTimeout(() => {
-                console.log(this);
-            }, 100);
+        // var fn;
+
+        // function foo() {
+        //     var a = 2;
+
+        //     function baz() {
+        //         console.log(a);
+        //     }
+        //     fn = baz;
+        // }
+
+        // function bar() {
+        //     fn();
+        // }
+
+        // foo();
+        // bar(); // 2
+
+
+
+        var count = 10; //全局作用域 标记为flag1
+        function add() {
+            var count = 0; //函数全局作用域 标记为flag2
+            return function() {
+                count += 1; //函数的内部作用域
+                alert(count);
+            }
         }
-        var obj = {
-            foo: foo
-        }
-        obj.foo();
+        var s = add()
+        s(); //输出1
+        s(); //输出2
     </script>
 </body>
 
