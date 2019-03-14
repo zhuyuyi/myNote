@@ -1,7 +1,14 @@
-### Promise
+---
+title: Promise
+date: 2019-02-28 12:08:40
+tags: es6
+categories: es6
+---
+## Promise
 
 Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。
-
+<img src="https://s2.ax1x.com/2019/03/14/AAiaXF.md.jpg" alt="AAiJf0.jpg" border="0" class="full-image" />
+<!--more-->
 Promise 有两个特点:
 1.对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是Promise这个名字的由来，它的英语意思就是“承诺”，表示其他手段无法改变。
 
@@ -9,7 +16,7 @@ Promise 有两个特点:
 
 缺点：无法取消Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
 
-###### 基本用法
+### 基本用法
 
 这是一个简单的 Promise 示例
 ```javascript
@@ -94,7 +101,7 @@ new Promise((resolve, reject) => {
 // 1
 ```
 
-###### Promise.prototype.then()
+### Promise.prototype.then()
 
 Promise 实例具有 then 方法，也就是说，then 方法是定义在原型对象 Promise.prototype 上的。它的作用是为 Promise 实例添加状态改变时的回调函数。前面说过，then 方法的第一个参数是 resolved 状态的回调函数，第二个参数（可选）是 rejected 状态的回调函数。
 then方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）。因此可以采用链式写法，即then方法后面再调用另一个then方法。
@@ -116,7 +123,7 @@ getJSON("/post/1.json").then(function(post) {
 ```
 上面代码中，第一个then方法指定的回调函数，返回的是另一个Promise对象。这时，第二个then方法指定的回调函数，就会等待这个新的Promise对象状态发生变化。如果变为resolved，就调用funcA，如果状态变为rejected，就调用funcB。
 
-###### Promise.prototype.catch()
+### Promise.prototype.catch()
 
 指定发生错误时的回调函数。
 ```javascript
@@ -129,15 +136,15 @@ getJSON('/posts.json').then(function(posts) {
 ```
 上面代码中，getJSON 方法返回一个 Promise 对象，如果该对象状态变为 resolved，则会调用 then 方法指定的回调函数；如果异步操作抛出错误，状态就会变为 rejected，就会调用 catch 方法指定的回调函数，处理这个错误。另外，then 方法指定的回调函数，如果运行中抛出错误，也会被 catch 方法捕获。
 
-###### Promise.prototype.finally()
+### Promise.prototype.finally()
 
 不管 Promise 最后执行的什么结果，都会执行的方法
 
-###### Promise.all()
+### Promise.all()
 
 Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
 
-###### Promise.resolve(value)
+### Promise.resolve(value)
 
 类方法，该方法返回一个以 value 值解析后的 Promise 对象
 1、如果这个值是个 thenable（即带有 then 方法），返回的 Promise 对象会“跟随”这个 thenable 的对象，采用它的最终状态（指 resolved/rejected/pending/settled）
@@ -156,15 +163,15 @@ let p1 = Promise.resolve(p0);
 console.log(p0 === p1);   // true
 ```
 
-###### Promise.reject
+### Promise.reject
 
 类方法，且与 resolve 唯一的不同是，返回的 promise 对象的状态为 rejected。
 
-###### Promise.race
+### Promise.race
 
 类方法，多个 Promise 任务同时执行，返回最先执行结束的 Promise 任务的结果，不管这个 Promise 结果是成功还是失败。
 
-###### 运用场景
+### 运用场景
 
 图片加载,我们可以将图片的加载写成一个 Promise，一旦加载完成，Promise 的状态就发生变化。
 ```javascript
@@ -177,6 +184,3 @@ const preloadImage = function (path) {
   });
 };
 ```
-
-
-

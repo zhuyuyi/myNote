@@ -1,4 +1,14 @@
-### new 运算符
+---
+title: new 运算符
+date: 2019-02-06 13:08:40
+tags: javascript语法
+categories: js
+---
+
+## new 运算符
+
+<img src="https://s2.ax1x.com/2019/03/14/AAiNlT.md.jpg" alt="AAiJf0.jpg" border="0" class="full-image" />
+<!--more-->
 
 ```javascript
 var obj  = {};

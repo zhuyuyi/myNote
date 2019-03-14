@@ -1,8 +1,15 @@
-### this 指向问题
+---
+title: this 指向问题
+date: 2019-02-08 17:19:40
+tags: javascript语法
+categories: js
+---
+## this 指向问题
 
 this指向问题可以归结为四类
-
-###### 默认绑定
+<img src="https://s2.ax1x.com/2019/03/14/AAiwm4.jpg" alt="AAiJf0.jpg" border="0" class="full-image" />
+<!--more-->
+### 默认绑定
 
 默认绑定--函数调用类型：独立函数调用，this指向全局对象。
 ```javascript
@@ -22,7 +29,7 @@ function foo(){
 foo();  // TypeError：this is undefined  
 ```
 
-###### 隐式绑定
+### 隐式绑定
 
 1. 调用位置是否有上下文对象，或者说被某个对象拥有或者包含
 
@@ -55,15 +62,15 @@ bar();  //"foo"
 ```
 虽然bar是obj.foo的一个引用，但是实际上，它引用的是foo函数本身，因此此时的bar()其实是不带任何修饰的函数调用，因此应用了默认绑定。
 
-###### 显示绑定
+### 显示绑定
 
 call()、apply()、bind(),详情请见同级目录下 call 与 aplly html 以及 this指向问题（个人总结）.md
 
-###### new绑定
+### new绑定
 
 this绑定的是新创建的对象
 
-###### 绑定规则
+### 绑定规则
 
 1. 函数是否是new绑定？如果是，this绑定的是新创建的对象。
 ```javascript
@@ -82,7 +89,7 @@ var bar = obj.foo();
 var bar = foo(); 
 ```
 
-###### 注意点
+### 注意点
 
 把null或undefined作为this的绑定对象传入call、apply、bind，调用时会被忽略，实际应用的是默认绑定规则！
 ```javascript
@@ -93,7 +100,7 @@ var a = 1;
 foo.call(null, 2);          //1  
 foo.apply(undefined, [3]);  //1  
 ```
-###### es6箭头函数
+### es6箭头函数
 
 箭头函数不使用this的四种标准规则，而是根据外层（函数或者全局）作用域来决定this。
 箭头函数的绑定无法被修改。常用于回调函数中，如事件处理器或定时器。和ES6之前代码中的this = self机制一样。
@@ -107,7 +114,7 @@ var obj = { a : 2};
 foo.call(obj);  
 ```
 
-###### this 如何确定 详解
+### this 如何确定 详解
 
 1. （隐式绑定）如果某个对象中某个成员是个function，当从 这个对象 上调用这个方法 时 this 指向 当前对象。
 ```javascript
@@ -172,5 +179,3 @@ var o = {x:1};
 var g = f.bind(o);    
 g(2);   // 3  
 ```
-
-

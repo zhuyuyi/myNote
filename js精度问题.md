@@ -1,4 +1,11 @@
-###### js类型
+---
+title: js类型
+date: 2019-02-06 12:08:40
+tags: javascript语法
+categories: js
+---
+
+## js类型
 
 js 拥有的类型为 null undefined string boolean number symbol（es6）object 
 
@@ -6,7 +13,10 @@ null 代表了一个空对象的指针 因此 typeof null 是 object，如果定
 
 boolean 值得注意的是，true false 区分大小写，True False 只是标识符，Boolean()转型函数，可以将一个值转为对应的boolean类型，
 
-###### number 类型
+<img src="https://s2.ax1x.com/2019/03/14/AAitpV.md.jpg" alt="AAiJf0.jpg" border="0" class="full-image" />
+<!--more-->
+
+### number 类型
 
 这里把 number 类型单独抽出来，是因为，我们在进行浮点数计算时，会出现 0.1 + 0.2 ！= 0.3 的情况，我们得弄清楚其中的原因。
 

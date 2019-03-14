@@ -1,7 +1,15 @@
-### this指向
+---
+title: this指向(个人总结)
+date: 2019-02-08 20:18:40
+tags: javascript语法
+categories: js
+---
+## this指向
 
 this 指向 可以 定义为 this 永远指向最后调用它的那个对象。
 
+<img src="https://s2.ax1x.com/2019/03/14/AAiB79.png" alt="AAiJf0.jpg" border="0" class="full-image" />
+<!--more-->
 ```javascript
     var name = "windowsName";
     function a() {
@@ -38,7 +46,7 @@ this 指向 可以 定义为 this 永远指向最后调用它的那个对象。
 ```
 这里，我把 对象 a 中的 name 注掉，此时 a.fn(),为 undefined。
 
-###### 改变 this 指向
+### 改变 this 指向
 
 使用 ES6 的箭头函数
 在函数内部使用 _this = this
@@ -68,7 +76,7 @@ new 实例化一个对象
 
 在es6箭头函数情况下，箭头函数中没有 this 绑定，必须通过查找作用域链来决定其值，如果箭头函数被非箭头函数包含，则 this 绑定的是最近一层非箭头函数的 this，否则，this 为 undefined”。
 
-###### apply call bind
+### apply call bind
 ```javascript
     var a = {
         name : "Cherry",
@@ -119,7 +127,7 @@ fun.apply(thisArg, [argsArray]);
 thisArg 是 this 指向，在浏览器中如果没有找到 this ，最终会把 this 指向 全局对象 window，argsArray 是传的参数
 fun.call(thisArg[, arg1[, arg2[, ...]]]); 
 call 接受的是若干个参数列表， apply 是接受一个数组，而bind 方法会创建一个新的函数
-###### js函数调用
+### js函数调用
 1. 作为一个函数调用
 ```javascript
     var name = "windowsName";
