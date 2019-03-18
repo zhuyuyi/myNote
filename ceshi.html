@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试布局</title>
+</head>
+<style>
+    .header,
+    .footer {
+        width: 100%;
+        height: 50px;
+        background-color: antiquewhite;
+    }
+    
+    .main {
+        overflow: hidden;
+    }
+    
+    .left {
+        float: left;
+        height: 300px;
+        width: 100px;
+        background-color: blue;
+    }
+    
+    .right {
+        float: right;
+        height: 300px;
+        width: 100px;
+        background-color: blue;
+    }
+    
+    .body {
+        width: 100%;
+    }
+</style>
+
+<body>
+    <div class="header"></div>
+    <div class="main">
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="body"></div>
+    </div>
+    <div class="footer"></div>
+</body>
+
+<script>
+    function a() {
+        var aa = 1;
+
+        function b() {
+            aa = 2;
+            console.log(aa); // 2
+        }
+        b();
+        console.dir(b);
+        console.log(aa); // 2
+    }
+    a();
+</script>
+
+</html>
