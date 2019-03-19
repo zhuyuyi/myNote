@@ -6,6 +6,8 @@ categories: js
 ---
 ## chrome浏览器中查看闭包
 
+该文章转载自 https://www.cnblogs.com/lsgxeva/p/7976111.html 这篇博文，由于本人觉得这篇博文十分优秀，便放在自己的博客中，方便以后学习。
+
 ### 例子1
 
 ```javascript
@@ -24,6 +26,7 @@ function bar() {
 foo();
 bar(); // 2
 ```
+<!--more-->
 第一步：设置断点，然后刷新页面。
 <img src="https://s2.ax1x.com/2019/03/18/AmI2RJ.png" alt="AmI2RJ.png" border="0" />
 
@@ -130,3 +133,6 @@ fn();
 2. 闭包的形成，与作用域链的访问顺序有直接关系。
 3. 只有内部函数访问了上层作用域链中的变量对象时，才会形成闭包，因此，我们可以利用闭包来访问函数内部的变量。
 
+### 升华
+
+<img src="https://s2.ax1x.com/2019/03/19/An6Gxf.png" alt="An6Gxf.png" border="0" />

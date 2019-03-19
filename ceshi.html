@@ -49,18 +49,19 @@
 </body>
 
 <script>
-    function a() {
-        var aa = 1;
-
-        function b() {
-            aa = 2;
-            console.log(aa); // 2
+    function foo() {
+        var a = 2;
+        return function bar() {
+            var b = 9;
+            return function fn() {
+                console.log(a);
+            }
         }
-        b();
-        console.dir(b);
-        console.log(aa); // 2
     }
-    a();
+    debugger
+    var bar = foo();
+    var fn = bar();
+    fn();
 </script>
 
 </html>

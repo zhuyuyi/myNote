@@ -137,7 +137,7 @@
         // a();
 
 
-        // var superProgrammer = 'bge';
+
 
 
         // var count = 10; //全局作用域 标记为flag1
@@ -146,28 +146,34 @@
         //     return function() {
         //         count += 1; //函数的内部作用域
         //         alert(count);
-
-        // function BossBge() {
-        //     var programmer = 'zyy';
-        //     setTimeout(function() {
-        //         console.log(12)
-        //     }, 0)
-
-        //     function ypgAndZtg() {
-        //         var goodProgrammer = programmer;
-        //         programmer = superProgrammer;
-        //         superProgrammer = goodProgrammer;
-        //         console.log(this);
-        //         setTimeout(function() {
-        //             console.log(13)
-        //         }, 0)
         //     }
-        //     ypgAndZtg();
         // }
-        // setTimeout(function() {
-        //     console.log(11)
-        // }, 0);
-        // BossBge();
+
+
+        var superProgrammer = 'bge';
+
+        function BossBge() {
+            var programmer = 'zyy';
+            setTimeout(function() {
+                console.log('我在bossbge内部')
+            }, 0)
+            console.log(1);
+
+            function ypgAndZtg() {
+                var goodProgrammer = programmer;
+                console.log(2);
+                setTimeout(function() {
+                    console.log('我在ypgAndZtg内部')
+                }, 0)
+            }
+            ypgAndZtg();
+        }
+        setTimeout(function() {
+            console.log('我在全局环境下')
+        }, 0);
+        console.log(0)
+        BossBge();
+        console.log('我是同步的');
 
 
         // var count = 10; //全局作用域 标记为flag1
@@ -197,7 +203,6 @@
         //     a: 'zyy'
         // });
         // console.dir(b);
-
     </script>
 </body>
 
