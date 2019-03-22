@@ -137,7 +137,16 @@
         // a();
 
 
+        function f1() {
+            var n = 999;
 
+            function f2() {
+                alert(n);
+            }
+            return f2;
+        }
+        var result = f1();
+        result(); // 999
 
 
         // var count = 10; //全局作用域 标记为flag1
@@ -150,30 +159,31 @@
         // }
 
 
-        var superProgrammer = 'bge';
+        // var superProgrammer = 'bge';
 
-        function BossBge() {
-            var programmer = 'zyy';
-            setTimeout(function() {
-                console.log('我在bossbge内部')
-            }, 0)
-            console.log(1);
+        // function BossBge() {
+        //     var programmer = 'zyy';
+        //     // setTimeout(function() {
+        //     //     console.log('我在bossbge内部')
+        //     // }, 0)
+        //     console.log(1);
 
-            function ypgAndZtg() {
-                var goodProgrammer = programmer;
-                console.log(2);
-                setTimeout(function() {
-                    console.log('我在ypgAndZtg内部')
-                }, 0)
-            }
-            ypgAndZtg();
-        }
-        setTimeout(function() {
-            console.log('我在全局环境下')
-        }, 0);
-        console.log(0)
-        BossBge();
-        console.log('我是同步的');
+        //     function ypgAndZtg() {
+        //         var goodProgrammer = programmer;
+        //         console.log(2);
+        //         // setTimeout(function() {
+        //         //     console.log('我在ypgAndZtg内部')
+        //         // }, 0)
+        //     }
+        //     ypgAndZtg();
+        // }
+        // // setTimeout(function() {
+        // //     console.log('我在全局环境下')
+        // // }, 0);
+        // console.log(0);
+        // debugger;
+        // BossBge();
+        // console.log('我是同步的');
 
 
         // var count = 10; //全局作用域 标记为flag1
@@ -195,14 +205,36 @@
 
         // console.dir(s);
 
-        // function a(bbb) {
-        //     var c = 1;
-        //     return bbb
+
+        // function foo() {
+        //     var a = 2;
+        //     return function bar() {
+        //         var b = 9;
+        //         return function fn() {
+        //             console.dir(fn);
+        //             console.log(b);
+        //         }
+        //     }
         // }
-        // var b = new a({
-        //     a: 'zyy'
-        // });
-        // console.dir(b);
+
+        // var bar = foo();
+        // var fn = bar();
+        // fn();
+
+
+        function foo() {
+            var a = 2;
+            return function bar() {
+                var b = 9;
+                return function fn() {
+                    console.log(a);
+                }
+            }
+        }
+        debugger;
+        var bar = foo();
+        var fn = bar();
+        fn();
     </script>
 </body>
 
