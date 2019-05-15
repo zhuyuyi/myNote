@@ -12,6 +12,10 @@
     <input id="input_1" type="text" value="">
     <button id="button">确定输入</button>
     <script>
+        // 连续输入字符串（输入的字符串个数为N，每个字符串长度不大于100，输入字符串之间按照空格键分割），
+        // 请按长度为8拆分每个字符串后  输出到新的字符串数据，输出的字符串按升序排序。
+        // 长度不是 8 的整数倍数的字符串请在后面补上数字0，空字符串不处理。
+
         let input = document.getElementById('input_1');
         let value = input.value;
         input.onchange = function(e) {
