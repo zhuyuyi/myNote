@@ -76,8 +76,8 @@ model：模型
 以巧克力为例：
 巧克力加工厂要生产一系列巧克力产品（爱心形、三角形、六边形），这些形状被称为模型，要制作这些模型就需要一定的模式（比如：三角形的三条线的长度、线与线之间的夹角）
 
-schema 是用来定义 documents的基本字段和集合的. 在mongoose中,提供了Schema的类。
-Schema 之所以能够定义documents, 是因为他可以限制你输入的字段及其类型. mongoose支持的基本类型有:
+schema 是用来定义 MongoDB 中的 documents 的基本字段和集合的. 在mongoose中,提供了Schema的类。
+Schema 之所以能够定义 documents, 是因为他可以限制你输入的字段及其类型. mongoose支持的基本类型有:
 * String
 * Number
 * Date
