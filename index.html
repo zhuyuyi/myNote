@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://fezz.che300.com/libs/axios/axios.min.js"></script>
+    <script src="https://fezz.che300.com/libs/vue/2.5.16/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <button @click="add">增</button>
+        </div>
+        <ul>
+            <li v-for="(item,index) in users">
+                <div>{{item.name}}---{{item.age}}
+                    <button @click="myDelete(item)">删</button>
+                    <button @click="myUpdate(item)">改</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    users: []
+                }
+            },
+            created() {
+                this.get();
+            },
+            mounted() {
+
+            },
+            methods: {
+                add() {
+                    let obj = {
+                        name: 'zyy',
+                        age: 23
+                    }
+                    axios.post('http://localhost:3000/api/users/add', obj).then((res) => {
+                        // this.users.push(res.data.list)
+                        this.get();
+                    })
+                },
+                myDelete(item) {
+                    let obj = {
+                        _id: item._id
+                    }
+                    axios.post('http://localhost:3000/api/users/delete', obj).then((res) => {
+                        this.get();
+                    })
+                },
+                get() {
+                    axios.get('http://localhost:3000/api/users/get').then((res) => {
+                        this.users = res.data.list
+                    })
+                },
+                myUpdate(item) {
+                    let obj = {
+                        name: 'bge',
+                        age: 18,
+                        _id: item._id
+                    }
+                    axios.post('http://localhost:3000/api/users/update', obj).then((res) => {
+                        this.get();
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
