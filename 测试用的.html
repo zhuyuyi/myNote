@@ -137,16 +137,16 @@
         // a();
 
 
-        function f1() {
-            var n = 999;
+        // function f1() {
+        //     var n = 999;
 
-            function f2() {
-                alert(n);
-            }
-            return f2;
-        }
-        var result = f1();
-        result(); // 999
+        //     function f2() {
+        //         alert(n);
+        //     }
+        //     return f2;
+        // }
+        // var result = f1();
+        // result(); // 999
 
 
         // var count = 10; //全局作用域 标记为flag1
@@ -222,19 +222,24 @@
         // fn();
 
 
-        function foo() {
-            var a = 2;
-            return function bar() {
-                var b = 9;
-                return function fn() {
-                    console.log(a);
-                }
-            }
-        }
-        debugger;
-        var bar = foo();
-        var fn = bar();
-        fn();
+        // function foo() {
+        //     var a = 2;
+        //     return function bar() {
+        //         var b = 9;
+        //         return function fn() {
+        //             console.log(a);
+        //         }
+        //     }
+        // }
+        // debugger;
+        // var bar = foo();
+        // var fn = bar();
+        // fn();
+
+
+        var a = 1;
+        function a(){}
+        console.log(a);
     </script>
 </body>
 
