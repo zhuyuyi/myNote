@@ -236,10 +236,93 @@
         // var fn = bar();
         // fn();
 
+            // function promise1(msg){
+            //     let p1 = new Promise((resolve,inject)=>{
+            //         setTimeout(function(){
+            //             console.log(msg);
+            //             resolve('2222')
+            //         },1000);
+            //     });
+            //     return p1;
+            // };
 
-        var a = 1;
-        function a(){}
-        console.log(a);
+            // function promise2(){
+            //     // debugger
+            //     let p2 = new Promise((resolve,reject)=>{
+            //         setTimeout(function(){
+            //             console.log('这是第二个回调函数');
+            //             resolve('111')
+            //         },2000)
+            //     });
+            //     return p2
+            // }
+            
+            // promise2().then((msg)=>{
+            //     return promise1(msg)
+            // }).then((msg1)=>{
+            //     console.log(msg1,'22')
+            // })
+
+            // function* helloWorldGenerator() {
+            //   yield 'hello';
+            //   yield 'world';
+            //   return 'ending';
+            // }
+            // var hw = helloWorldGenerator();
+            // console.log(hw.next())
+
+            // async function timeout(){
+            //     return 'nihao'
+            // }
+            // timeout().then((msg)=>{
+            //     console.log(msg)
+            // })
+            // console.log('xian')
+
+
+            // function double(num){
+            //     return new Promise((resolve,reject)=>{
+            //         setTimeout(function(){
+            //             resolve(num * 2)
+            //         },2000)
+            //     })
+            // }
+
+            // async function fuc(){
+            //     let num = await double(60)
+            //     return num;
+            // }
+
+            // fuc().then((res)=>{
+            //     console.log(res)
+            // })
+
+
+            function promise1(){
+                return new Promise((resolve,reject)=>{
+                    setTimeout(function(){
+                        console.log('1')
+                        resolve('promise1')
+                    },2000)
+                })
+            }
+
+            function promise2(){
+                return new Promise((resolve,reject)=>{
+                    setTimeout(function(){
+                        console.log('2')
+                        resolve('promise2')
+                    },1000)
+                })
+            }
+
+            async function async1(){
+                let promise_1 = await promise1();
+                let promise_2 = await promise2();
+            }
+
+            async1()
+
     </script>
 </body>
 
