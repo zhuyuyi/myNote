@@ -317,8 +317,8 @@
             }
 
             async function async1(){
-                let promise_1 = await promise1();
-                let promise_2 = await promise2();
+                await promise1();
+                await promise2();
             }
 
             async1()
