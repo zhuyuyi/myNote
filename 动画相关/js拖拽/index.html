@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #parent {
+            width: 500px;
+            height: 500px;
+            background-color: #eee;
+        }
+        
+        #dv {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            border-radius: 50%;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="parent">
+        <div id="dv"></div>
+    </div>
+    <script>
+        // 获取元素
+        var dv = document.getElementById('dv');
+        var parent = document.getElementById('parent');
+
+        var x = 0;
+        var y = 0;
+        var l = 0;
+        var t = 0;
+        // 是否可以拖拽的 开关
+        var isDown = false;
+
+        // 鼠标按下事件
+        dv.onmousedown = function(e) {
+            //获取x坐标和y坐标
+            x = e.clientX;
+            y = e.clientY;
+            // 获取鼠标左部和顶部 距离浏览器左上角的偏移量
+            l = dv.offsetLeft;
+            t = dv.offsetTop;
+            // 开关打开
+            isDown = true;
+            // 设置样式  
+            // dv.style.cursor = 'move';
+        }
+
+        // 鼠标移动
+        window.onmousemove = function(e) {
+            dv.style.cursor = 'move';
+            if (isDown === false) {
+                return;
+            }
+            // 获取x和y
+            var nx = e.clientX;
+            var ny = e.clientY;
+            // 计算移动后的左偏移量和顶部的偏移量
+            // 这里是以圆中心点
+            var nl = nx - (x - l);
+            var nt = ny - (y - t);
+
+            // 圆触边判断 父盒子的宽高
+            if (nl <= 0) {
+                nl = 0
+            } else if (nl >= parent.clientWidth - dv.clientWidth) {
+                nl = parent.clientWidth - dv.clientWidth
+            }
+            if (nt <= 0) {
+                nt = 0
+            } else if (nt >= parent.clientHeight - dv.clientHeight) {
+                nt = parent.clientHeight - dv.clientHeight
+            }
+
+            dv.style.left = nl + 'px';
+            dv.style.top = nt + 'px';
+        }
+
+        // 鼠标抬起事件,是 window ，因为鼠标会在屏幕任意地方抬起，否则会出 bug
+        window.onmouseup = function() {
+            // 开关关闭
+            isDown = false;
+            dv.style.cursor = 'default';
+        }
+    </script>
+</body>
+
+</html>

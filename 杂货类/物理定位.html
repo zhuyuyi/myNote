@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GPS定位</title>
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.bootcss.com/vConsole/3.2.2/vconsole.min.js"></script>
+</head>
+
+<body>
+    <div id="demo">
+        <button id="btn">获取定位</button>
+        <div id="value"></div>
+    </div>
+    <script>
+        var vConsole = new VConsole();
+
+        let btn = document.getElementById('btn');
+        let value = document.getElementById('value');
+
+        btn.onclick = getLocation;
+
+        function getLocation() {
+            console.log('开始定位')
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successCallback, errCallback)
+            } else {
+                console.log('此浏览器不支持物理定位')
+            }
+        }
+
+        function successCallback(position) {
+            value.innerHTML = `纬度${position.coords.latitude}----经度${position.coords.longitude}----`;
+            gotoGeogleMap(position.coords.latitude, position.coords.longitude)
+        }
+
+        function errCallback(err) {
+            console.log(err.code, 'err')
+        }
+
+        function gotoGeogleMap(latitude, longitude) {
+            window.open(`https://www.google.cn/maps/@${latitude},${longitude},15z`, '_blank')
+        }
+    </script>
+</body>
+
+</html>

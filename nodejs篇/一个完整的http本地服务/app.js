@@ -45,7 +45,6 @@ function readCss(err, data, res) {
 	if (err) {
 		res.end('404 Not Found');
 	}
-	// res.setHeader('Content-Type', 'text/css;charset=utf-8');
 	res.write(data);
 	res.end();
 }
