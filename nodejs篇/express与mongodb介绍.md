@@ -7,6 +7,8 @@ categories: nodejs
 
 ## express 与 mongodb
 
+<!--more-->
+
 ### mongodb 介绍
 
 MongoDB是一个对象数据库，是用来存储数据的；存储的数据格式更多为JSON，很适合前端开发者的一个数据库。
