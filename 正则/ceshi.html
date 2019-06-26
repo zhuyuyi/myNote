@@ -10,8 +10,32 @@
 
 <body>
     <script>
-        var regex = /e^/g;
-        console.log(regex.test("hello."));
+        // var regex = /e^/g;
+        // console.log(regex.test("hello."));
+
+        let regex1 = /^[0-9]/;
+        let a = 'z111'
+        console.log(regex1.test(a));
+
+        let regex2 = /[z]/;
+        let b = 'aazaa'
+        console.log(regex2.test(b));
+
+        let regex3 = /^1[34578]\d{9}$/
+        let c = '18351800598'
+        console.log(regex3.test(c))
+
+        let regex4 = /^([01]\d|[2][0-3]):[0-5]\d:[0-5]\d$/
+        let d = '11:00:10'
+        console.log(regex4.test(d))
+
+        let regex5 = /^[\w]{1}[\.,\w]{3,9}$/g;
+        let e = '_zzz.a,'
+        console.log(regex5.test(e))
+
+        let regex6 = /\./g;
+        let f = '!'
+        console.log(regex6.test(f))
     </script>
 </body>
 
