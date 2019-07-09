@@ -10,32 +10,63 @@
 
 <body>
     <script>
-        // var regex = /e^/g;
-        // console.log(regex.test("hello."));
+        var regex = /ab{2,5}c/g;
+        var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        var arr = string.match(regex);
+        console.log(arr);
 
-        let regex1 = /^[0-9]/;
-        let a = 'z111'
-        console.log(regex1.test(a));
+        var regex = /a[123]b/g;
+        var string = "a0b a1b a2b a34b a4b";
+        var arr = string.match(regex);
+        console.log(arr);
 
-        let regex2 = /[z]/;
-        let b = 'aazaa'
-        console.log(regex2.test(b));
+        var regex = /a(123){1,}b/g;
+        var string = "a123b a1b a2b a34b a4b";
+        var arr = string.match(regex);
+        console.log(arr);
 
-        let regex3 = /^1[34578]\d{9}$/
-        let c = '18351800598'
-        console.log(regex3.test(c))
+        var regex = /id=(("[\w]{0,}")|('[\w]{0,}'))/g
+        var string = "<div id='container' class='main'></div>";
+        console.log(string.match(regex));
 
-        let regex4 = /^([01]\d|[2][0-3]):[0-5]\d:[0-5]\d$/
-        let d = '11:00:10'
-        console.log(regex4.test(d))
+        var regex = /^[a-zA-Z]:\\([^\\:*<>|"?\r\n/]+\\)*([^\\:*<>|"?\r\n/]+)?$/;
+        console.log(regex.test("F:\\study\\javascript\\regex\\regular\\expression.pdf"));
+        console.log(regex.test("F:\\study\\javascript\\regex\\"));
+        console.log(regex.test("F:\\javascript"));
+        console.log(regex.test("F:\\"));
 
-        let regex5 = /^[\w]{1}[\.,\w]{3,9}$/g;
-        let e = '_zzz.a,'
-        console.log(regex5.test(e))
+        var result = "hello".replace(/^|$/g, '#');
+        console.log(result);
 
-        let regex6 = /\./g;
-        let f = '!'
-        console.log(regex6.test(f))
+        var result = "[JS] Lesson_01.mp4".replace(/\b/g, '#');
+        console.log(result);
+
+        var result = "hello".replace(/(?<=ll)/g, '#');
+        console.log(result);
+
+        var regex = /.^/g;
+        regex.test('hello')
+        console.log(regex.test('hello'));
+
+        var result = "012345678".replace(/(?=([0-9]{3}){1,}$)/g, ',')
+        console.log(result);
+
+        var string1 = "12345678",
+            string2 = "123456789";
+        reg = /(?!^)(?=(\d{3})+$)/g;
+
+        var result = string1.replace(reg, ',')
+        console.log(result);
+        // => "12,345,678"
+
+        result = string2.replace(reg, ',');
+        console.log(result);
+        // => "123,456,789"
+
+        function format(num) {
+            return num.toFixed(3).replace(/\B(?=(\d{3})+\b)/g, ",").replace(/(?<=^)/, "$ ");
+        };
+        console.log(format(1888));
     </script>
 </body>
 
