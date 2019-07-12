@@ -17,7 +17,8 @@ function promise2() {
 }
 
 async function async1() {
-    await promise1();
+    let a = await promise1();
+    console.log(a)
     await promise2();
 }
 
