@@ -20,6 +20,11 @@
         var arr = string.match(regex);
         console.log(arr);
 
+        var regex = /a[a\-b]b/g;
+        var string = "a-b abb  a34b a4b";
+        var arr = string.match(regex);
+        console.log(arr);
+
         var regex = /a(123){1,}b/g;
         var string = "a123b a1b a2b a34b a4b";
         var arr = string.match(regex);
@@ -48,6 +53,9 @@
         regex.test('hello')
         console.log(regex.test('hello'));
 
+        var result = "012345678".replace(/(?=[0-9]{3}$)/g, ',')
+        console.log(result);
+
         var result = "012345678".replace(/(?=([0-9]{3}){1,}$)/g, ',')
         console.log(result);
 
@@ -64,7 +72,7 @@
         // => "123,456,789"
 
         function format(num) {
-            return num.toFixed(3).replace(/\B(?=(\d{3})+\b)/g, ",").replace(/(?<=^)/, "$ ");
+            return num.toFixed(2).replace(/(?!\b)(?=(\d{3})+\b)/g, ",").replace(/(?<=^)/, "￥ ");
         };
         console.log(format(1888));
     </script>
