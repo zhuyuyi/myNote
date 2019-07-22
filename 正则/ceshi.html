@@ -20,7 +20,7 @@
         var arr = string.match(regex);
         console.log(arr);
 
-        var regex = /a[a\-b]b/g;
+        var regex = /a[z\-a]b/g;
         var string = "a-b abb  a34b a4b";
         var arr = string.match(regex);
         console.log(arr);
@@ -75,6 +75,12 @@
             return num.toFixed(2).replace(/(?!\b)(?=(\d{3})+\b)/g, ",").replace(/(?<=^)/, "￥ ");
         };
         console.log(format(1888));
+
+        var regex = /^([01]\d|2[0-3]):[0-5]\d$/g
+        console.log(regex.test("23:59"));
+        console.log(regex.lastIndex);
+        regex.lastIndex = 0;
+        console.log(regex.test("02:07"));
     </script>
 </body>
 
