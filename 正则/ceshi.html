@@ -72,7 +72,7 @@
         // => "123,456,789"
 
         function format(num) {
-            return num.toFixed(2).replace(/(?!\b)(?=(\d{3})+\b)/g, ",").replace(/(?<=^)/, "￥ ");
+            return num.toFixed(2).replace(/(?!\b)(?=(\d{3})+\b)/g, ",").replace(/^/, "￥ ");
         };
         console.log(format(1888));
 
@@ -81,6 +81,9 @@
         console.log(regex.lastIndex);
         regex.lastIndex = 0;
         console.log(regex.test("02:07"));
+
+        var result = "12345678".replace(/(?=(\d{3})+$)/g, ',')
+        console.log(result); 
     </script>
 </body>
 
