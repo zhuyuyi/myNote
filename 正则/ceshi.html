@@ -14,19 +14,20 @@
         var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
         var arr = string.match(regex);
         console.log(arr);
-
-        var regex = /a[123]b/g;
-        var string = "a0b a1b a2b a34b a4b";
-        var arr = string.match(regex);
+        regex.lastIndex = 10;
+        var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        var arr = string2.match(regex);
         console.log(arr);
 
-        var regex = /a[z\-a]b/g;
-        var string = "a-b abb  a34b a4b";
-        var arr = string.match(regex);
-        console.log(arr);
+        var regex = /ab{2,5}c/g;
+        var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        console.log(regex.exec(string));
+        regex.lastIndex = 10;
+        var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        console.log(regex.exec(string2));
 
-        var regex = /a(123){1,}b/g;
-        var string = "a123b a1b a2b a34b a4b";
+        var regex = /a[0-z]b/g;
+        var string = "a:b abb  a34b a4b";
         var arr = string.match(regex);
         console.log(arr);
 
@@ -71,19 +72,20 @@
         console.log(result);
         // => "123,456,789"
 
-        function format(num) {
-            return num.toFixed(2).replace(/(?!\b)(?=(\d{3})+\b)/g, ",").replace(/^/, "￥ ");
-        };
-        console.log(format(1888));
-
         var regex = /^([01]\d|2[0-3]):[0-5]\d$/g
         console.log(regex.test("23:59"));
         console.log(regex.lastIndex);
         regex.lastIndex = 0;
         console.log(regex.test("02:07"));
 
-        var result = "12345678".replace(/(?=(\d{3})+$)/g, ',')
-        console.log(result); 
+        var result = "123456789".replace(/(?!^)(?=(\d{3})+$)/g, ',')
+        console.log(result);
+
+        function formatDigit(num) {
+            return num.toFixed(2).replace(/(?!^)(?=(\d{3})+\b)/g, ',').replace(/^/, '￥ ')
+        }
+        var num = formatDigit(123456789);
+        console.log(num);
     </script>
 </body>
 
