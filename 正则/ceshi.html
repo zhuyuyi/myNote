@@ -10,6 +10,12 @@
 
 <body>
     <script>
+
+        var regex = /[^a-c]/g;
+        var string = "b";
+        var arr = string.match(regex);
+        console.log(arr);
+
         var regex = /ab{2,5}c/g;
         var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
         var arr = string.match(regex);
@@ -63,10 +69,36 @@
         console.log(result);
         // => "123,456,789"
 
+        // function format(num) {
+        //     return num.toFixed(3).replace(/\B(?=(\d{3})+\b)/g, ",").replace(/(?<=^)/, "$ ");
+        // };
+        // console.log(format(1888));
+
+        var regex = /#([0-9a-fA-F]{6})|([0-9a-fA-F]{3})/g
+
+        var regex = /(([01][0-9])|([2][0-4])):[0-5][0-9]/g
+        var time = '23:59';
+        var time2 = '02:07'
+        console.log(time.match(regex));
+        console.log(time2.match(regex));
+
+        var regex = /^[a-zA-Z]:\\([^\\:*<>|"?\r\n/]+\\)*([^\\:*<>|"?\r\n/]+)?$/
+
+        var regex = /id='[\w]{0,}'/g
+        var string = "<div id='container' class='main'></div>";
+        console.log(string.match(regex));
+
+        var result = "hello".replace(/^|$/g, '#');
+        console.log(result);
+
+        var result = "123456789".replace(/(?!^)(?=(\d{3}){1,}$)/g, ',')
+        console.log(result);
+
         function format(num) {
-            return num.toFixed(3).replace(/\B(?=(\d{3})+\b)/g, ",").replace(/(?<=^)/, "$ ");
+
+            return num.toFixed(2).replace(/\B(?=(\d{3})+.\d{2}$)/g, ",").replace(/^/, "$ ");
         };
-        console.log(format(1888));
+        console.log(format(123456789.12));
     </script>
 </body>
 
