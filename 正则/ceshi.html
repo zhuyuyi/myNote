@@ -11,7 +11,8 @@
 <body>
     <script>
 
-        var regex = /[^a-c]/g;
+        // var regex = /[^a-c]/g;
+        var regex = new RegExp(`[a-c]`, 'g')
         var string = "b";
         var arr = string.match(regex);
         console.log(arr);
@@ -24,11 +25,11 @@
         regex.lastIndex = 10;
         var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
         var arr = string2.match(regex);
-        console.log(arr);
+        console.log(arr, '第三个');
 
         var regex = /ab{2,5}c/g;
         var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
-        console.log(regex.exec(string));
+        console.log(regex.exec(string), '第四个');
 
         regex.lastIndex = 10;
         var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
