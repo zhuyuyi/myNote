@@ -10,6 +10,12 @@
 
 <body>
     <script>
+
+        var regex = /[^a-c]/g;
+        var string = "b";
+        var arr = string.match(regex);
+        console.log(arr);
+
         var regex = /ab{2,5}c/g;
         var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
         var arr = string.match(regex);
