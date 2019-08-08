@@ -11,15 +11,19 @@
 <body>
     <script>
 
-        var regex = /[^a-c]/g;
+        var regex = /[a-c]/g;
         var string = "b";
+        var string2 = 'c'
         var arr = string.match(regex);
+        var arr2 = string2.match(regex);
         console.log(arr);
+        console.log(arr2)
 
         var regex = /ab{2,5}c/g;
         var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
         var arr = string.match(regex);
         console.log(arr);
+
         regex.lastIndex = 10;
         var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
         var arr = string2.match(regex);
@@ -84,8 +88,8 @@
         regex.lastIndex = 0;
         console.log(regex.test("02:07"));
 
-        var result = "123456789".replace(/(?!^)(?=(\d{3})+$)/g, ',')
-        console.log(result);
+        var result = ' 123456789'.replace(/(?!\b)(?=(\d{3})+\b)/g, ',');
+        console.log(result, 'result')
 
         function formatDigit(num) {
             return num.toFixed(2).replace(/(?!^)(?=(\d{3})+\b)/g, ',').replace(/^/, '￥ ')
