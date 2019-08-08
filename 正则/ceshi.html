@@ -11,13 +11,14 @@
 <body>
     <script>
 
-        var regex = /[a-c]/g;
+        // var regex = /[^a-c]/g;
+        var regex = new RegExp(`[a-c]`, 'g')
         var string = "b";
         var string2 = 'c'
         var arr = string.match(regex);
         var arr2 = string2.match(regex);
         console.log(arr);
-        console.log(arr2)
+        console.log(regex.exec(string))
 
         var regex = /ab{2,5}c/g;
         var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
@@ -27,29 +28,35 @@
         regex.lastIndex = 10;
         var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
         var arr = string2.match(regex);
-        console.log(arr);
+        console.log(arr, '第三个');
 
         var regex = /ab{2,5}c/g;
         var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
-        console.log(regex.exec(string));
+        console.log(regex.exec(string), '第四个');
+
         regex.lastIndex = 10;
         var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
         console.log(regex.exec(string2));
 
-        var regex = /a[0-z]b/g;
-        var string = "a:b abb  a34b a4b";
+        var regex = /a[\^\-\`/]b/g;
+        var string = "a^b abb  a34b a4b";
         var arr = string.match(regex);
         console.log(arr);
+
+        var regex = /\d{2,5}?/g;
+        var string = "123 1234 12345 123456";
+        console.log(string.match(regex));
 
         var regex = /id=(("[\w]{0,}")|('[\w]{0,}'))/g
         var string = "<div id='container' class='main'></div>";
         console.log(string.match(regex));
 
-        var regex = /^[a-zA-Z]:\\([^\\:*<>|"?\r\n/]+\\)*([^\\:*<>|"?\r\n/]+)?$/;
+        var regex = /^([a-zA-Z]:\\)([^\\:*<>|"?\r\n/]+\\)*([^\\:*<>|"?\r\n/]+)?$/;
         console.log(regex.test("F:\\study\\javascript\\regex\\regular\\expression.pdf"));
         console.log(regex.test("F:\\study\\javascript\\regex\\"));
         console.log(regex.test("F:\\javascript"));
         console.log(regex.test("F:\\"));
+        console.log(RegExp, '文件')
 
         var result = "hello".replace(/^|$/g, '#');
         console.log(result);
@@ -82,20 +89,22 @@
         console.log(result);
         // => "123,456,789"
 
-        var regex = /^([01]\d|2[0-3]):[0-5]\d$/g
-        console.log(regex.test("23:59"));
-        console.log(regex.lastIndex);
-        regex.lastIndex = 0;
-        console.log(regex.test("02:07"));
+        var regex = /^([01]\d|2[0-3]):(?<zyy>[0-5]\d)$/g
+        console.log(regex.exec("23:59"), '测试');
+        console.dir(regex.lastIndex);
+        // regex.lastIndex = 0;
+        console.log(regex.exec("23:59"));
 
-        var result = ' 123456789'.replace(/(?!\b)(?=(\d{3})+\b)/g, ',');
-        console.log(result, 'result')
+        var num = ' 123456789';
+        console.log(num.replace(/(?!\b)(?=(\d{3})+$)/g, ','), '最后一个例子');
 
         function formatDigit(num) {
-            return num.toFixed(2).replace(/(?!^)(?=(\d{3})+\b)/g, ',').replace(/^/, '￥ ')
+            let num2 = parseInt(num);
+            return num2.toFixed(2).replace(/(?!\b)(?=(\d{3})+\b)/g, ',').replace(/^/, '￥ ')
         }
-        var num = formatDigit(123456789);
-        console.log(num);
+
+        var num = 123456789;
+        console.log(formatDigit(num))
     </script>
 </body>
 
