@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        button {
+            position: relative;
+            z-index: 1;
+            border: none;
+            outline: none;
+            padding: 0.5em 1em;
+            color: white;
+            background-color: #1890ff;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            border: 4px solid #1890ff;
+            transform: scale(1);
+            transform-origin: center;
+        }
+
+        button:focus::before {
+            transition: all 0.75s ease-out;
+            border: 1px solid#e6f7ff;
+            transform: scale(1.15, 1.25);
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <button>这是一个小button</button>
+</body>
+
+</html>
