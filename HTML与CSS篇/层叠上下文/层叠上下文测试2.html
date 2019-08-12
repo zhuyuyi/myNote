@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+        }
+
+        .float-item {
+            float: left;
+            background-color: pink;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .inline-block {
+            display: inline-block;
+            margin-left: -20px;
+            margin-top: -20px;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="inline-block">inline-block</div>
+    <div class="float-item">float</div>
+    <div>none</div>
+
+    <img src="./层叠上下文图/c_3.png" />
+
+</body>
+
+</html>
