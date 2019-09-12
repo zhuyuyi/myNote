@@ -6,117 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        div {
+            width: 400px;
+            height: 400px;
+            background: #58a;
+            background:
+                linear-gradient(-45deg, transparent 15px, #58a 0) right,
+                linear-gradient(45deg, transparent 15px, #655 0) left;
+            background-size: 50% 100%;
+            background-repeat: no-repeat;
+        }
+
+        img {
+            clip-path: polygon(50% 0, 100% 50%,
+                50% 100%, 0 50%);
+            transition: 1s clip-path;
+        }
+
+        img:hover {
+            clip-path: polygon(0 0, 100% 0,
+                100% 100%, 0 100%);
+        }
+    </style>
 </head>
 
 <body>
+
+    <div>
+        <!-- <img src="https://assets.che300.com/feimg/web3.0/login/login_pic_welcome.png"> -->
+    </div>
+
     <script>
-        const myReplace = (start = 0, end = 0, str = '', symbol = '*') => {
-            // 尾部长度 如：183****0598中的 0598
-            let tailLength = str.length - end;
 
-            // 切割长度 如：183****0598中的 ****
-            let inciseLength = end - start;
-
-            // 判断传参是否合法
-            if (tailLength < 0 || inciseLength < 0 || start < 0 || end < 0) {
-                return;
-            }
-
-            // 正则语句 如：/(\d{3})\d{4}(\d{4})/
-            let regex = new RegExp(
-                '(\\d{' + start + '})\\d{' + inciseLength + '}(\\d{' + tailLength + '})'
-            );
-
-            // 循环生成 脱敏符号
-            let mySymbol = '';
-            for (let i = 0; i < inciseLength; i++) {
-                mySymbol += symbol;
-            }
-
-            // 正则匹配
-            let finalStr = str.toString().replace(regex, '$1' + mySymbol + '$2');
-
-            // 返回值
-            return finalStr;
-        };
-
-        var tel = '18351800598'
-        var lastTel = myReplace(3, 7, tel, '*');
-        console.log(lastTel)
-        // function promiseAsync1() {
-        //     return new Promise((resolve, reject) => {
-        //         setTimeout(() => {
-        //             resolve('data1')
-        //         }, 2000)
-        //     })
-        // }
-
-        // function promiseAsync2() {
-        //     return new Promise((resolve, reject) => {
-        //         setTimeout(() => {
-        //             resolve('data2')
-        //         }, 1000)
-        //     })
-        // }
-
-        // promiseAsync1().then((data) => {
-        //     console.log(data);
-        //     return promiseAsync2();
-        // }).then((data => {
-        //     console.log(data)
-        // }))
-
-
-        // function promise1() {
-        //     return new Promise((resolve, reject) => {
-        //         setTimeout(function () {
-        //             console.log('1')
-        //             resolve('promise1')
-        //         }, 2000)
-        //     })
-        // }
-
-        // function promise2() {
-        //     return new Promise((resolve, reject) => {
-        //         setTimeout(function () {
-        //             console.log('2')
-        //             resolve('promise2')
-        //         }, 1000)
-        //     })
-        // }
-
-        // async function async1() {
-        //     await promise1().then((data) => {
-        //         console.log(data)
-        //     });
-        //     await promise2().then((data) => {
-        //         console.log(data)
-        //     });;
-        // }
-
-        // async1()
-
-        // 给定一个未排序的整数数组，找出其中没有出现的最小的正整数。
-
-        var firstMissingPositive = function (nums) {
-            let a = 0;
-            for (let i = 0; i < nums.length; i++) {
-                while (nums[i] >= 1 && nums[i] < nums.length && nums[i] !== nums[nums[i] - 1]) {
-                    a = nums[nums[i] - 1];
-                    nums[nums[i] - 1] = nums[i];
-                    nums[i] = a;
-                }
-            }
-            for (var i = 0; i < nums.length; i++) {
-                if (nums[i] !== i + 1) {
-                    return i + 1
-                }
-            }
-            return i + 1;
-        };
-
-        var nums = [-1, 4, 2, 1, 9, 10];
-        console.log(firstMissingPositive(nums));
     </script>
 </body>
 
