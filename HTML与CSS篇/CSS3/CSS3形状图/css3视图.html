@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .div_box {
+            margin: 50px 100px;
+        }
+
+        .div_1 {
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            background-color: aqua;
+            text-align: center;
+            transform: skew(-45deg);
+        }
+
+        .div_1_1 {
+            transform: skew(45deg);
+        }
+
+        .div_2 {
+            position: relative;
+            margin: 10px;
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .div_2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: aqua;
+            transform: skew(-45deg);
+            z-index: -1;
+        }
+
+        .div_3 {
+            margin-left: 100px;
+            width: 200px;
+            transform: rotate(45deg);
+            overflow: hidden;
+        }
+
+        .div_3>img {
+            width: 100%;
+            transform: rotate(-45deg) scale(1.42);
+        }
+
+        .div_4 {
+            clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+            transition: 1s clip-path;
+        }
+
+        .div_4:hover {
+            clip-path: polygon(0 0, 100% 0,
+                100% 100%, 0 100%);
+        }
+
+        .div_5 {
+            width: 200px;
+            height: 100px;
+            background: #58a;
+            background:
+                linear-gradient(-45deg, transparent 15px, #58a 0);
+        }
+
+        .div_6 {
+            width: 200px;
+            height: 100px;
+            background: #58a;
+            background:
+                linear-gradient(-45deg, transparent 15px, #58a 0) right,
+                linear-gradient(45deg, transparent 15px, #655 0) left;
+            background-size: 50% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .div_7 {
+            width: 200px;
+            height: 100px;
+            background: #58a;
+            background:
+                linear-gradient(135deg, transparent 15px, #58a 0) top left,
+                linear-gradient(-135deg, transparent 15px, #58a 0) top right,
+                linear-gradient(-45deg, transparent 15px, #58a 0) bottom right,
+                linear-gradient(45deg, transparent 15px, #58a 0) bottom left;
+            background-size: 50% 50%;
+            background-repeat: no-repeat;
+        }
+
+        .div_8 {
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            padding: .5em 1em .35em;
+            color: white;
+        }
+
+        .div_8::before {
+            content: '';
+            /* 用伪元素来生成一个矩形 */
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            background: #58a;
+            transform: scaleY(1.3) perspective(.5em) rotateX(3deg);
+            transform-origin: bottom;
+        }
+
+        .div_9 {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: yellowgreen;
+            background-image:
+                linear-gradient(to right, transparent 50%, #655 0);
+        }
+
+        .div_9::before {
+            content: '';
+            display: block;
+            margin-left: 50%;
+            height: 100%;
+            border-radius: 0 100% 100% 0 / 50%;
+            background-color: inherit;
+            transform-origin: left;
+            transform: rotate(.1turn);
+        }
+
+        .div_10 {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: yellowgreen;
+            background-image:
+                linear-gradient(to right, transparent 50%, #655 0);
+        }
+
+        .div_10::before {
+            content: '';
+            display: block;
+            margin-left: 50%;
+            height: 100%;
+            border-radius: 0 100% 100% 0 / 50%;
+            background: #655;
+            transform-origin: left;
+            transform: rotate(.1turn);
+        }
+
+        .div_11 {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: yellowgreen;
+            background-image:
+                linear-gradient(to right, transparent 50%, #655 0);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(.5turn);
+            }
+        }
+
+        @keyframes bg {
+            50% {
+                background: #655;
+            }
+        }
+
+        .div_11::before {
+            content: '';
+            display: block;
+            margin-left: 50%;
+            height: 100%;
+            border-radius: 0 100% 100% 0 / 50%;
+            background-color: inherit;
+            transform-origin: left;
+            animation: spin 3s linear infinite,
+                bg 6s step-end infinite;
+        }
+
+        .div_12 {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            line-height: 100px;
+            border-radius: 50%;
+            background: yellowgreen;
+            background-image:
+                linear-gradient(to right, transparent 50%, #655 0);
+            color: transparent;
+            text-align: center;
+        }
+
+        .div_12::before {
+            content: '';
+            display: block;
+            margin-left: 50%;
+            height: 100%;
+            border-radius: 0 100% 100% 0 / 50%;
+            background-color: inherit;
+            transform-origin: left;
+            animation: spin 50s linear infinite,
+                bg 100s step-end infinite;
+            animation-play-state: paused;
+            animation-delay: inherit;
+        }
+
+        .div_13 {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: yellowgreen;
+            background: conic-gradient(yellowgreen 0, yellowgreen 30%, #655 30%, #655 50%, #f60 50%);
+        }
+    </style>
+</head>
+
+<body>
+    <section class="div_box">
+        <div class="div_1">
+            <div class="div_1_1">
+                click
+            </div>
+        </div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_2">
+            click
+        </div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_3">
+            <img src="https://s2.ax1x.com/2019/09/16/nWGoIU.png" alt="nWGoIU.png" border="0" />
+        </div>
+    </section>
+
+    <section class="div_box">
+        <img class="div_4" src="https://s2.ax1x.com/2019/09/16/nWGoIU.png" alt="nWGoIU.png" border="0" />
+    </section>
+
+    <section class="div_box">
+        <div class="div_5"></div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_6"></div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_7"></div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_8">
+            click
+        </div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_9"></div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_10"></div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_11"></div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_12" style="animation-delay: -20s">50</div>
+    </section>
+
+    <section class="div_box">
+        <div class="div_13"></div>
+    </section>
+
+    <script>
+        let div = document.querySelectorAll('.div_12');
+        div.forEach((pie) => {
+            let p = parseFloat(pie.textContent);
+            pie.style.animationDelay = '-' + p + 's';
+        });
+    </script>
+</body>
+
+</html>
