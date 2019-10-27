@@ -64,7 +64,7 @@
 
         .div_4:hover {
             clip-path: polygon(0 0, 100% 0,
-                100% 100%, 0 100%);
+                    100% 100%, 0 100%);
         }
 
         .div_5 {
@@ -72,7 +72,7 @@
             height: 100px;
             background-color: #58a;
             background:
-                linear-gradient(-45deg, transparent 15px, #58a 0);
+                linear-gradient(-45deg, transparent 0px, transparent 15px, #58a 15px);
         }
 
         .div_6 {
@@ -193,7 +193,8 @@
             border-radius: 0 100% 100% 0 / 50%;
             background-color: inherit;
             transform-origin: left;
-            animation: spin 3s linear infinite,
+            animation:
+                spin 3s linear infinite,
                 bg 6s step-end infinite;
         }
 
