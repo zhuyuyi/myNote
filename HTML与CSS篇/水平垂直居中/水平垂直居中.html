@@ -1,0 +1,164 @@
+<!-- /*
+* @Author: 朱育仪
+* @Date: 2019-10-12 16:11:02
+* @Last Modified by: 朱育仪
+* @Last Modified time: 2019-10-12 16:11:02
+*/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水平垂直居中</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        .layout {
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .parent {
+            width: 100%;
+            height: 200px;
+            background-color: aqua;
+            position: relative;
+        }
+
+        .child {
+            width: 200px;
+            height: 100px;
+            background-color: blueviolet;
+        }
+
+        div.p_1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        div.p_2 {
+            position: relative;
+        }
+
+        div.c_2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        div.c_3 {
+            width: 50px;
+            height: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -25px;
+            margin-top: -5px;
+        }
+
+        div.c_4 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        div.p_5 {
+            display: grid;
+        }
+
+        div.c_5 {
+            justify-self: center;
+            align-self: center;
+        }
+
+        div.p_6 {
+            display: flex;
+        }
+
+        div.c_6 {
+            margin: auto;
+        }
+
+        .p_7 {
+            display: table-cell;
+            height: 200px;
+            width: 200px;
+            background-color: orange;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .c_7 {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 1 flex -->
+    <section class="layout">
+        纯flex
+        <div class="parent p_1">
+            <div class="child c_1"></div>
+        </div>
+    </section>
+    <!-- 2 transform -->
+    <section class="layout">
+        transform 拉回
+        <div class="parent p_2">
+            <div class="child c_2"></div>
+        </div>
+    </section>
+    <!-- 3 margin -->
+    <section class="layout">
+        margin负值拉回
+        <div class="parent p_3">
+            <div class="child c_3"></div>
+        </div>
+    </section>
+    <!-- 4 position -->
+    <section class="layout">
+        定位
+        <div class="parent p_4">
+            <div class="child c_4"></div>
+        </div>
+    </section>
+    <!-- 5  grid-->
+    <section class="layout">
+        网格布局
+        <div class="parent p_5">
+            <div class="child c_5"></div>
+        </div>
+    </section>
+    <!-- 6 flex and margin -->
+    <section class="layout">
+        flex 和 margin 结合 （代码少）
+        <div class="parent p_6">
+            <div class="child c_6"></div>
+        </div>
+    </section>
+    <!-- 7 table-cell -->
+    <section class="layout">
+        表格布局（我很少用）
+        <div class="parent p_7">
+            <div class="child c_7"></div>
+        </div>
+    </section>
+</body>
+
+</html>
