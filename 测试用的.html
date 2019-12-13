@@ -323,7 +323,19 @@
         // console.log(i.next())
         // console.log(i.next())
 
-
+        let person = {
+            name: 'zyy',
+            age: 23
+        }
+        function changeName(person) {
+            let _person = { ...person };
+            _person.name = 'qyy';
+            return _person
+        }
+        let person2 = changeName(person)
+        console.log(person2)
+        person2.age = 24;
+        console.log(person)
 
 
 
