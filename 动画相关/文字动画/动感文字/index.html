@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动感文字</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: black;
+            flex-direction: column;
+        }
+
+        /* 第一个动画 */
+        .shining {
+            font-size: 2em;
+            font-family: Lato, sans-serif;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, black 0%, white 50%, black 100%);
+            background-size: 80%;
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shining 3s linear infinite;
+        }
+
+        @keyframes shining {
+            from {
+                background-position: -500%;
+            }
+
+            to {
+                background-position: 500%;
+            }
+        }
+
+        /* 第一个动画 */
+        /* 第2个动画 */
+        ul {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            list-style-type: none;
+        }
+
+        ul li {
+            padding: 6px 0;
+        }
+
+        ul li a {
+            --fill-color: #198CE6;
+            position: relative;
+            display: block;
+            padding: 4px 0;
+            font-family: Raleway, sans-serif;
+            font-size: 3em;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            -webkit-text-stroke: 2px var(--fill-color);
+            background: linear-gradient(90deg, var(--fill-color) 0%, var(--fill-color) 100%);
+            background-size: 0;
+            background-position: left;
+            background-repeat: no-repeat;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            transition: 0.5s linear;
+        }
+
+        ul li a:hover {
+            background-size: 100%;
+        }
+
+        /* 第2个动画 */
+        /* 第3个动画 */
+        .neon {
+            color: #cce7f8;
+            font-size: 2.5rem;
+            font-family: 'Pacifico', cursive;
+            text-transform: uppercase;
+            -webkit-animation: shining2 0.1s alternate infinite;
+            animation: shining2 0.1s alternate infinite;
+        }
+
+        @keyframes shining2 {
+            from {
+                text-shadow: 0 0 6px rgba(182, 211, 207, 0.9), 0 0 30px rgba(182, 211, 207, 0.3), 0 0 12px rgba(15, 115, 223, 0.5), 0 0 21px rgba(15, 115, 223, 0.9), 0 0 34px rgba(15, 115, 223, 0.8), 0 0 54px rgba(15, 115, 223, 0.9);
+            }
+
+            to {
+                text-shadow: 0 0 6px #b6d3cf, 0 0 30px rgba(182, 211, 207, 0.4), 0 0 12px rgba(15, 115, 223, 0.6), 0 0 22px rgba(15, 115, 223, 0.8), 0 0 38px rgba(15, 115, 223, 0.9), 0 0 60px #0f73df;
+            }
+        }
+
+        /* 第3个动画 */
+    </style>
+</head>
+
+<body>
+    <!-- 利用background-clip:text配合color实现渐变文字效果 -->
+    <p class="shining">fushigi no monogatari</p>
+
+    <ul>
+        <li><a href="#">home</a></li>
+        <li><a href="#">archives</a></li>
+        <li><a href="#">tags</a></li>
+        <li><a href="#">categories</a></li>
+        <li><a href="#">about</a></li>
+    </ul>
+    <!-- 利用background-clip:text配合color实现渐变文字效果 -->
+
+    <div class="neon">fushigi no monogatari</div>
+</body>
+
+</html>

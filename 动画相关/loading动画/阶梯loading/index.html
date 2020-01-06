@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>阶梯loading</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #2980b9;
+        }
+
+        .loading {
+            display: flex;
+            color: white;
+            font-size: 3em;
+            font-family: Lato, sans-serif;
+            text-transform: uppercase;
+        }
+
+        .loading span {
+            padding: 0 20px;
+            line-height: 100px;
+            background: #34495e;
+            animation: bulge 2s infinite;
+        }
+
+        @keyframes bulge {
+            50% {
+                box-shadow: 0 20px 0 #eee;
+                transform: translateY(-35px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading">Loading</div>
+    <script>
+        let loading = document.querySelector(".loading");
+        let letters = loading.textContent.split(""); // 切割文字
+        loading.textContent = ""; // 去除原有的文字
+        letters.forEach((letter, i) => {
+            let span = document.createElement("span"); // 每一个字符一个 span
+            span.textContent = letter; // 赋值
+            span.style.animationDelay = `${i / 5}s`; // 延迟动画
+            loading.append(span); // 添加dom
+        });
+    </script>
+</body>
+
+</html>
