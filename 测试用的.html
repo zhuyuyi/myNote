@@ -231,32 +231,37 @@
         // var fn = bar();
         // fn();
 
-        // function promise1(msg){
-        //     let p1 = new Promise((resolve,inject)=>{
-        //         setTimeout(function(){
-        //             console.log(msg);
-        //             resolve('2222')
-        //         },1000);
-        //     });
-        //     return p1;
-        // };
+        function promise1(msg) {
+            let p1 = new Promise((resolve, reject) => {
+                setTimeout(function () {
+                    console.log(msg);
+                    resolve('2222')
+                }, 1000);
+            });
+            return p1;
+        };
 
-        // function promise2(){
-        //     // debugger
-        //     let p2 = new Promise((resolve,reject)=>{
-        //         setTimeout(function(){
-        //             console.log('这是第二个回调函数');
-        //             resolve('111')
-        //         },2000)
-        //     });
-        //     return p2
-        // }
+        function promise2() {
+            // debugger
+            let p2 = new Promise((resolve, reject) => {
+                console.log(3333)
+                setTimeout(function () {
+                    console.log('这是第二个回调函数');
+                    resolve('111')
+                }, 2000)
+            });
+            return p2
+        }
 
-        // promise2().then((msg)=>{
-        //     return promise1(msg)
-        // }).then((msg1)=>{
-        //     console.log(msg1,'22')
-        // })
+        promise2()
+            .then((msg) => {
+                // return promise1(msg)
+                console.log(2222222222)
+            })
+        console.log(111111111111111)
+            // .then((aaa) => {
+            //     console.log(aaa, 'aaaa')
+            // })
 
         // function* helloWorldGenerator() {
         //   yield 'hello';
@@ -323,19 +328,19 @@
         // console.log(i.next())
         // console.log(i.next())
 
-        let person = {
-            name: 'zyy',
-            age: 23
-        }
-        function changeName(person) {
-            let _person = { ...person };
-            _person.name = 'qyy';
-            return _person
-        }
-        let person2 = changeName(person)
-        console.log(person2)
-        person2.age = 24;
-        console.log(person)
+        // let person = {
+        //     name: 'zyy',
+        //     age: 23
+        // }
+        // function changeName(person) {
+        //     let _person = { ...person };
+        //     _person.name = 'qyy';
+        //     return _person
+        // }
+        // let person2 = changeName(person)
+        // console.log(person2)
+        // person2.age = 24;
+        // console.log(person)
 
 
 
