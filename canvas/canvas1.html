@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#f60';
+        ctx.fillRect(10, 10, 50, 50);
+        ctx.fillStyle = 'rgba(0,0,255,0.5)';
+        ctx.fillRect(30, 30, 50, 50);
+        ctx.clearRect(20, 20, 10, 10);
+
+        ctx.strokeStyle = '#f00';
+        ctx.lineWidth = 30;
+        ctx.lineJoin = 'round';
+        ctx.strokeRect(80, 80, 100, 100);
+
+        // 测试
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#f60';
+        ctx.beginPath();
+        ctx.arc(400, 400, 99, 0, 2 * Math.PI, false);
+        ctx.moveTo(494, 400);
+        ctx.arc(400, 400, 94, 0, 2 * Math.PI, false);
+        ctx.save();
+
+        ctx.translate(400, 400);
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -80);
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-50, 0);
+        ctx.restore();
+        ctx.font = 'bold 14px 黑体';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('12', 400, 315);
+
+        ctx.stroke();
+
+    </script>
+</body>
+
+</html>

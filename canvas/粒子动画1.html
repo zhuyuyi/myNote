@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>粒子动画</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const ctx = canvas.getContext('2d');
+        // 填充画布背景色
+        function setBgc() {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        // 设置粒子颜色
+        function setColor() {
+            return `#${(Math.random() * 0xffffff << 0).toString(16)}`
+        }
+        let particleIndex = 0; // 实例化的 id 需要记录
+        let particles = {}; // 缓存 粒子 实例化对象
+        let particleNum = 0.2; // 标识 防止粒子过小
+        // 粒子构造函数
+        class Particles {
+            constructor() {
+                particleIndex++; // 粒子的唯一标识
+                this.x = canvas.width / 2; // 粒子喷射的初始点 x
+                this.y = canvas.height / 2; // 粒子喷射的初始点 y
+                this.vx = Math.random() * 6 - 3; // 喷射速度x
+                this.vy = Math.random() * 4 - 2; // 喷射速度y
+                this.growth = (Math.abs(this.vx) + (Math.abs(this.vy))) * 0.007; // 粒子成长逐渐变化
+                this.color = setColor(); // 设置粒子颜色
+                this.size = Math.random(); // 粒子的初始大小
+                this.id = particleIndex; // 缓存 唯一标识
+                particles[particleIndex] = this; // 缓存每一个实例化粒子对象
+            }
+            draw() {
+                this.x += this.vx; // 初始点随速度变化
+                this.y += this.vy; // 初始点随速度变化
+                this.size += this.growth; // 粒子逐渐变大
+                // 如果超出屏幕区域，则杀掉缓存的实例化对象
+                if (this.x > canvas.width || this.y > canvas.height) {
+                    delete particles[this.id];
+                }
+                ctx.beginPath(); // 开始绘制
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); // 绘制圆形粒子
+                ctx.fillStyle = this.color; // 填充粒子颜色
+                ctx.fill(); // 绘制
+            }
+        }
+        // 动画函数
+        function animate() {
+            window.requestAnimationFrame(animate); // 递归
+            setBgc(); // 填充画布背景色
+            // 防止粒子过小肉眼难辨
+            if (Math.random() > particleNum) {
+                new Particles();
+            }
+            // 循环遍历渲染缓存的实例化粒子对象
+            for (let key in particles) {
+                particles[key].draw();
+            }
+        }
+        window.requestAnimationFrame(animate); // 动画开始
+    </script>
+</body>
+
+</html>
