@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>粒子动画2</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const winWidth = document.documentElement.clientWidth;
+        const winHeight = document.documentElement.clientHeight;
+        canvas.width = winWidth;
+        canvas.height = winHeight;
+        const dotList = []; // 粒子数组
+
+        let img = new Image();
+        img.src = "./pic/icon-shop.png"; // pic地址
+        let imgW; // 图片宽
+        let imgH; // 图片高
+        let sx; // 渲染图片中心点
+        let sy; // 渲染图片中心点
+
+        if (img.complete) { // 图片加载完毕
+            init()
+        } else {
+            img.onload = () => {
+                init()
+            }
+        }
+        // 初始化
+        function init() {
+            imgW = img.width;
+            imgH = img.height;
+            sx = winWidth / 2 - imgW / 2; // 绘制 中心点 x（随机）
+            sy = winHeight / 2 - imgH / 2; // 绘制 中心点 y（随机）
+
+            ctx.drawImage(img, sx, sy); // 绘图渲染图片
+
+            let imgData = ctx.getImageData(sx, sy, imgW, imgH); // 获取像素点 一维数组 rgba依次列开
+            ctx.fillStyle = "#000";
+
+            for (let x = 0; x < imgData.width; x += 4) { // 行循环
+                for (let y = 0; y < imgData.height; y += 4) { // 列循环
+                    let i = y * imgData.width + x; // 第x行第y列的元素
+                    if (imgData.data[i * 4 + 3] > 128) { // 透明度 < 128 不显示
+                        let dot = new Dot(x + 100, y + 100, 1); // 实例化对象
+                        dotList.push(dot);
+                    }
+                }
+            }
+            draw();
+        }
+        // 绘画
+        function draw() {
+            ctx.clearRect(0, 0, winWidth, winHeight); // 清除历史轨迹
+            for (let i = 0; i < dotList.length; i++) {
+                // 当前粒子
+                let curDot = dotList[i];
+                ctx.beginPath();
+                ctx.arc(curDot.x, curDot.y, curDot.radius, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+        // 粒子构造函数
+        class Dot {
+            constructor(centerX, centerY, radius) {
+                this.x = centerX; // 点 x 坐标
+                this.y = centerY; // 点 y 坐标 
+                this.radius = radius; // ⚪大小
+            }
+        }
+    </script>
+</body>
+
+</html>
