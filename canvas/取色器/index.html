@@ -79,7 +79,7 @@
             let y = e.layerY;
             let pixel = ctx.getImageData(x, y, 1, 1); // 获取图片像素信息
             let data = pixel.data;
-            let rgba = `rgba(${data[0]},${data[1]},${data[2]},${data[3]})`; // 获取rgba值
+            let rgba = `rgb(${data[0]},${data[1]},${data[2]})`; // 获取rgba值
             let hash = `#${scale(data[0])}${scale(data[1])}${scale(data[2])}`; // 获取十六进制值
             // 设置小正方形的背景颜色
             color.style.background = rgba;

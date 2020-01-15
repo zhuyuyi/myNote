@@ -2,7 +2,7 @@
  * @return Promise 压缩图片
  * @param {Object} file 文件对象
  * @param {String} type 图片类型 默认：image/jpeg、image/png...
-* @param {String} _maxWidth 图片最大宽  默认 700
+ * @param {String} _maxWidth 图片最大宽  默认 700
  * @param {String} _maxHeight 图片最大高  默认 700
  * @param {String} quality 图片质量 0-1
  */
