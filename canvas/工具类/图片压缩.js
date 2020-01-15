@@ -2,9 +2,15 @@
  * @return Promise 压缩图片
  * @param {Object} file 文件对象
  * @param {String} type 图片类型 默认：image/jpeg、image/png...
+* @param {String} _maxWidth 图片最大宽  默认 700
+ * @param {String} _maxHeight 图片最大高  默认 700
+ * @param {String} quality 图片质量 0-1
  */
-export function zipPic(file, type = 'image/jpeg') {
-    return new Promise(resolve => {
+export function zipPic(file = [], type = 'image/jpeg', _maxWidth = 700, _maxHeight = 700, quality = 0.92) {
+    return new Promise((resolve, reject) => {
+        if (file.length === 0 || typeof type !== 'string' || typeof _maxWidth !== 'number' || typeof _maxHeight !== 'number' || typeof quality !== 'number') {
+            return reject(true)
+        }
         // 压缩图片需要的一些元素和对象
         let reader = new FileReader();
         let img = new Image();
@@ -22,8 +28,8 @@ export function zipPic(file, type = 'image/jpeg') {
             let originWidth = img.width;
             let originHeight = img.height;
             // 最大尺寸限制，可通过设置宽高来实现图片压缩程度
-            let maxWidth = 700,
-                maxHeight = 700;
+            let maxWidth = _maxWidth,
+                maxHeight = _maxHeight;
             // 目标尺寸
             let targetWidth = originWidth,
                 targetHeight = originHeight;
@@ -55,7 +61,7 @@ export function zipPic(file, type = 'image/jpeg') {
                     resolve(newFile);
                 },
                 type,
-                0.98 // 图片质量
+                quality // 图片质量
             );
         };
     });

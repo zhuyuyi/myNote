@@ -19,7 +19,7 @@ categories: canvas
 
     ctx.beginPath();
     ctx.moveTo(100.5,40.5);
-    ctx.lineTo(200.5,40.5)
+    ctx.lineTo(200.5,40.5);
     ctx.strokeStyle = 'red';
     ctx.stroke();
 ```
@@ -35,7 +35,7 @@ categories: canvas
 
     // ctx.beginPath();
     ctx.moveTo(100.5,40.5);
-    ctx.lineTo(200.5,40.5)
+    ctx.lineTo(200.5,40.5);
     ctx.strokeStyle = 'red';
     ctx.stroke();
 ```
