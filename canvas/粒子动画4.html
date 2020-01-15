@@ -101,8 +101,8 @@
                 this.radius = radius; // ⚪大小
                 this.frameNum = 0; // fps:动画的每一帧
                 this.frameCount = Math.ceil(3000 / 16.66); // 帧率  1s 60帧，1帧为16.66ms，3s会有 多少帧  3000 / 16.66 约等于 180 帧
-                this.sx = 800; // 喷射初始点
-                this.sy = 500; // 喷射初始点
+                this.sx = Math.random() * 800; // 喷射初始点
+                this.sy = Math.random() * 500; // 喷射初始点
                 this.delay = this.frameCount * Math.random(); // 延迟执行的随机数，让粒子随机动态生成
                 this.delayCount = 0; // 延迟计数,粒子等待多少帧执行
             }
