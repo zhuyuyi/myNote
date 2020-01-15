@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>beginPath、closePath</title>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        ctx.lineWidth = 3;
+        // ctx.beginPath();
+        // ctx.moveTo(100.5, 20.5);
+        // ctx.lineTo(200.5, 20.5);
+        // ctx.strokeStyle = 'black';//默认strokeStyle='black', lineWidth=1, 此处可省略
+        // ctx.stroke();
+
+        // // ctx.beginPath();
+        // ctx.moveTo(100.5, 40.5);
+        // ctx.lineTo(200.5, 40.5)
+        // ctx.strokeStyle = 'red';
+        // ctx.stroke();
+
+
+        ctx.strokeStyle = "#f60";
+        for (var i = 0; i < 10; i++) {
+            ctx.beginPath();
+            ctx.arc(50 + i * 100, 60, 40, 0, 2 * Math.PI * (i + 1) / 10);
+            // ctx.closePath();
+            // ctx.stroke();
+            ctx.fill()
+        }
+
+    </script>
+</body>
+
+</html>

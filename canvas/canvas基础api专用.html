@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas基础api专用</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = 10000;
+        const ctx = canvas.getContext('2d'); // 获取 2d 上下文
+
+        // ---------------------------------第一个和第二个小矩形---------------------------------
+
+        ctx.fillStyle = '#f60'; // 设置填充样式
+        ctx.lineJoin = 'round'; // 线头交点样式
+        ctx.lineCap = 'butt'; // 线头末尾样式
+
+        ctx.fillRect(10, 10, 50, 50); // 绘制实心矩形
+        ctx.clearRect(10, 10, 10, 10); // 橡皮擦
+
+
+        ctx.strokeStyle = '#f60'; // 设置描边样式
+        ctx.lineWidth = 10; // 设置线宽
+        ctx.strokeRect(10, 70, 200, 200); // 绘制空心矩形
+
+
+        ctx.save(); // 入栈操作，保存之前绘画的样式
+
+        // ---------------------------------线条---------------------------------
+
+        let gra = ctx.createLinearGradient(20, 290, 20, 400); // 线性渐变
+        gra.addColorStop(0, '#fff'); // 渐变
+        gra.addColorStop(1, '#000'); // 渐变
+        ctx.strokeStyle = gra; // 设置填充样式
+        ctx.lineWidth = 20; // 设置线宽
+
+        ctx.beginPath();
+        ctx.moveTo(20, 290); // 移动画笔到指定位置
+        ctx.lineTo(20, 400); // 从起始点绘画直线到指定点
+
+        ctx.lineJoin = 'butt'; // 线头交点样式
+        ctx.lineCap = 'round'; // 线头末尾样式
+
+        ctx.stroke(); // 描边
+
+
+        ctx.restore(); // 出栈操作，回到之前的样式
+
+
+        ctx.beginPath();
+        ctx.setLineDash([20, 10]); // 虚线
+        ctx.moveTo(20, 420);
+        ctx.lineTo(120, 420);
+        ctx.lineTo(120, 500);
+        ctx.closePath(); // 从初始点和结束点连接一条线
+        ctx.stroke();
+
+
+        ctx.save();
+        // ----------------------------------------动作------------------------------------------
+        ctx.fillStyle = '#f30'; // 设置填充样式
+        ctx.translate(20, 510); // 将canvas原点的移动到 (x,y)
+        ctx.rotate(-30 * Math.PI / 180); // 旋转
+        ctx.fillRect(0, 0, 100, 100); // 绘制实心矩形
+
+        ctx.stroke(); // 出战
+
+
+    </script>
+</body>
+
+</html>
