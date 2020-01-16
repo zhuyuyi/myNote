@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        const ctx = canvas.getContext('2d');
+        let dots = []; // 粒子实例数组
+        let pX = 0, pY = 0; // 屏幕位置
+        let total = 1000; // 粒子总数
+        // 粒子构造函数
+        class Dot {
+            constructor(ctx, width, height) {
+                this.width = width; // canvas宽
+                this.height = height; // canvas高
+                this.ctx = ctx; // 2d上下文
+                this.x = this.random(0, width); // 粒子中心 x坐标
+                this.y = this.random(0, height); // 粒子中心 y坐标
+                this.r = this.random(0, 3); // 粒子半径
+                this.originR = this.r; // 粒子最初的半径
+                this.color = this.setColor(); // 粒子颜色
+                this.vx = this.random(0, 1); // 运动 x轴速度
+                this.vy = this.random(0, 1); // 运动 y轴速度
+                this.position = 100; // 鼠标范围
+            }
+            // 生成随机数
+            random(min, max) {
+                return Math.random() * (max - min) + min
+            }
+            // 随机颜色生成
+            setColor() {
+                return `#${(Math.random() * 0xffffff << 0).toString(16)}`
+            }
+            // 绘画粒子
+            draw() {
+                this.ctx.beginPath();
+                this.ctx.fillStyle = this.color;
+                this.ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                this.ctx.fill();
+            }
+            // 粒子的移动
+            move() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x - this.r < 0 || this.x + this.r > this.width) { // 碰撞检测
+                    this.vx = -this.vx;
+                }
+                if (this.y - this.r < 0 || this.y + this.r > this.height) { // 碰撞检测
+                    this.vy = -this.vy;
+                }
+                this.changeSize();
+                this.draw();
+            }
+            // 粒子大小变换
+            changeSize() {
+                let lengthX = Math.pow(this.x - pX, 2); // 粒子x坐标 与 鼠标 x坐标 的距离平方
+                let lengthY = Math.pow(this.y - pY, 2); // 粒子y坐标 与 鼠标 y坐标 的距离平方
+                let length = Math.sqrt(lengthX + lengthY); // 粒子中心点与 鼠标的距离
+                if (length < this.position && this.r < 20) { // 碰撞检测
+                    this.r += 1
+                } else { // 碰撞检测
+                    this.r -= 1
+                    if (this.r < this.originR) { // 回归原始大小
+                        this.r = this.originR;
+                    }
+                }
+            }
+        }
+        // 填充画布背景色
+        function setBgc() {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        // 创建粒子实例
+        function create() {
+            for (let i = 0; i < total; i++) {
+                let dot = new Dot(ctx, canvas.width, canvas.height);
+                dots.push(dot)
+                dot.draw();
+            }
+        }
+        create();
+        // 动起来
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            setBgc();
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].move();
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+        // 获取鼠标位置
+        canvas.addEventListener('mousemove', (e) => {
+            pX = e.layerX;
+            pY = e.layerY;
+        })
+    </script>
+</body>
+
+</html>
