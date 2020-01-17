@@ -30,7 +30,7 @@
         }
         // 设置粒子颜色
         function setColor() {
-            return `#${(Math.random() * 0xffffff << 0).toString(16)}`
+            return `#${(Math.random() * 0xffffff << 0).toString(16)}` // 0xffffff === 16777215
         }
         let particleIndex = 0; // 实例化的 id 需要记录
         let particles = {}; // 缓存 粒子 实例化对象
