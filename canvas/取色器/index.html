@@ -19,6 +19,8 @@
     </div>
     <div id="fileDiv">
         <input type="file" id="fileInput">
+        <button id="plus">变大</button>
+        <button id="min">变小</button>
     </div>
     <div class="layout">
         <div id="colorText"></div>
@@ -35,30 +37,44 @@
         const selectedText = document.getElementById('selectedText');
         const fileInput = document.getElementById('fileInput');
         const colorText = document.getElementById('colorText');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight - 300;
+        const plusBtn = document.getElementById('plus');
+        const minBtn = document.getElementById('min');
         selectedText.style.display = 'none';
         colorText.style.display = 'none';
 
         let img = new Image();
         img.src = './../pic/che300.png';
+        // 变大
+        plusBtn.onclick = function () {
+            img.width += 10;
+            img.height += (img.height / img.width) * 10;
+            img.onload();
+        }
+        // 变小
+        minBtn.onclick = function () {
+            img.width -= 10;
+            img.height -= (img.height / img.width) * 10;
+            img.onload();
+        }
 
         fileInput.onchange = async function () {
             let flag = await picType(fileInput.files[0].name);
             if (flag) {
                 let reader = new FileReader();
-                img = new Image();
+                // img = new Image();
                 reader.readAsDataURL(fileInput.files[0]);
                 // 文件base64化，以便获知图片原始尺寸
                 reader.onload = function (e) {
                     img.src = e.target.result;
                 };
-                img.onload = load;
+                img.onload();
             }
         }
 
         img.onload = load;
         function load() {
+            canvas.width = img.width;
+            canvas.height = img.height;
             ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除历史轨迹
             let size = carve(img.width, img.height)
             ctx.drawImage(img, 0, 0, size.targetWidth, size.targetHeight);
@@ -71,6 +87,9 @@
             colorText.style.background = text.textContent;
             selectedText.textContent = `${text.textContent} ${text2.textContent}`
         }
+
+        canvas.addEventListener('mousemove', pick);
+        window.addEventListener('mousemove', outPick);
 
         // canvas触手事件
         function pick(e) {
@@ -104,9 +123,6 @@
                 text2.style.display = 'block';
             }
         }
-
-        canvas.addEventListener('mousemove', pick);
-        window.addEventListener('mousemove', outPick);
 
         // 图片切割
         function carve(imgWidth, imgHeight) {
