@@ -1,16 +1,29 @@
 ---
-title: canvas基础api
+title: canvas基础
 date: 2020-01-15 14:15:00
 tags: canvas
 categories: canvas
 ---
 
-## canvas基础api
+## canvas基础
 
 ### 简介
 `Canvas`是 `HTML5` 新增的，一个可以使用脚本(通常为`JavaScript`)在其中绘制图像的 `HTML` 元素。它可以用来制作照片集或者制作简单(也不是那么简单)的动画，甚至可以进行实时视频处理和渲染。
 `Canvas`是由`HTML`代码配合高度和宽度属性而定义出的可绘制区域。`JavaScript`代码可以访问该区域，类似于其他通用的二维API，通过一套完整的绘图函数来动态生成图形。
 ​ Mozilla 程序从 Gecko 1.8 (Firefox 1.5)开始支持`Canvas`, Internet Explorer 从IE9开始支持。Chrome和Opera 9+ 也支持。
+
+### canvas 可以做什么
+绘制图表、小游戏、活动页面、小特效、炫酷背景
+
+### canvas 与 svg 之间的比较
+canvas|svg
+-|-
+依赖分辨率（位图）|不依赖分辨率（矢量图）
+单个 HTML 元素|每一个图形都是一个 DOM 元素
+只能通过脚本语言绘制图形|可以通过 CSS 也可以通过脚本语言绘制
+不支持事件处理程序|支持事件处理程序
+弱的文本渲染能力|最适合带有大型渲染区域的应用程序（比如谷歌地图）
+图面较小，对象数量较大（>10k）时性能最佳|对象数量较小 (<10k)、图面更大时性能更佳
 
 ### 矩形
 ```javascript 
@@ -112,3 +125,6 @@ rotate( angle )   // 顺时针方向旋转坐标轴 angle弧度
 
 scale(x,y)   // 将图形横向缩放x倍、纵向缩放y倍   （ x、y大于1是放大  小于1为缩放！！！）
 ```
+
+
+

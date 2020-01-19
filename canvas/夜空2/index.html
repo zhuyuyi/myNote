@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>夜空</title>
+    <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+    <div class="filter"></div>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        const starsNum = 100;
+        const stars = [];
+        // 星星
+        class Star {
+            constructor(index, x, y) {
+                this.x = x;
+                this.y = y;
+                this.r = Math.random() * 2 + 1;
+                let alpha = (Math.floor(Math.random() * 10) + 1) / 10 / 2;
+                this.color = "rgba(255,255,255," + alpha + ")";
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = this.r * 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+                ctx.closePath();
+                ctx.fill();
+            }
+            move() {
+                this.y -= 0.15;
+                if (this.y < -10) {
+                    this.y = canvas.height + 10;
+                }
+                this.draw();
+            }
+        }
+        // 动画函数
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].move();
+            }
+            requestAnimationFrame(animate);
+        }
+        // 初始化
+        function init() {
+            for (let i = 0; i < starsNum; i++) {
+                let star = new Star(i, Math.random() * canvas.width, Math.random() * canvas.height);
+                star.draw();
+                stars.push(star)
+            }
+            animate();
+        }
+        init()
+
+    </script>
+</body>
+
+</html>
