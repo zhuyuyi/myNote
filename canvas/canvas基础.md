@@ -10,7 +10,6 @@ categories: canvas
 ### 简介
 `Canvas`是 `HTML5` 新增的，一个可以使用脚本(通常为`JavaScript`)在其中绘制图像的 `HTML` 元素。它可以用来制作照片集或者制作简单(也不是那么简单)的动画，甚至可以进行实时视频处理和渲染。
 `Canvas`是由`HTML`代码配合高度和宽度属性而定义出的可绘制区域。`JavaScript`代码可以访问该区域，类似于其他通用的二维API，通过一套完整的绘图函数来动态生成图形。
-​ Mozilla 程序从 Gecko 1.8 (Firefox 1.5)开始支持`Canvas`, Internet Explorer 从IE9开始支持。Chrome和Opera 9+ 也支持。
 
 ### canvas 可以做什么
 绘制图表、小游戏、活动页面、小特效、炫酷背景
