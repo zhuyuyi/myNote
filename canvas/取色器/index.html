@@ -58,6 +58,8 @@
         }
 
         fileInput.onchange = async function () {
+            console.log(fileInput.files[0])
+            debugger
             let flag = await picType(fileInput.files[0].name);
             if (flag) {
                 let reader = new FileReader();
