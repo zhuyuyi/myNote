@@ -23,9 +23,14 @@ canvas|svg
 不支持事件处理程序|支持事件处理程序
 对象数量较大（>10k）时性能最佳|对象数量较小 (<10k)、图面更大时性能更佳
 
+### canvas 元素节点api
+let ctx = canvas.getContent('2d');
+canvas.toBlob();
+canvas.toDataURL();
+
 ### 矩形
 ```javascript 
-fillRect( x , y , width , height)  // 填充以(x,y)为起点宽高分别为width、height的矩形 默认为黑色
+ctx.fillRect( x , y , width , height)  // 填充以(x,y)为起点宽高分别为width、height的矩形 默认为黑色
 
 stokeRect( x , y , width , height) // 绘制一个空心以(x,y)为起点宽高分别为width、height的矩形
 
@@ -129,3 +134,11 @@ scale(x,y)   // 将图形横向缩放x倍、纵向缩放y倍   （ x、y大于1�
 1、我们常用的
 2、我们难以理解的
 3、神奇的
+
+问题：
+1、算法
+2、报错
+
+建议：
+1、多看
+2、自己慢慢尝试

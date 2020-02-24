@@ -6,7 +6,7 @@
  * @param {object} _config 其他配置项
  * @param {function} callback 回调
  */
-export function drawWaterMask(text = '车300伽马风控', deg = 30, fontSize = 24, _config, callback) {
+export function drawWaterMask(text = '你好', deg = 30, fontSize = 24, _config, callback) {
     const config = {
         fontWeight: _config.fontWeight || 'bold', // 加粗
         fontFamily: _config.fontFamily || '黑体', // 字体
