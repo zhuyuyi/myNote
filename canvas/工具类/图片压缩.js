@@ -66,7 +66,7 @@ export function zipPic(file = [], type = 'image/jpeg', _maxWidth = 700, _maxHeig
         };
     });
 }
-
+// https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toBlob
 
 // new File([blob], file.name, { type: file.type });
 

@@ -55,7 +55,7 @@ export function drawWaterMask(text = '你好', deg = 30, fontSize = 24, _config,
 }
 
 // ---------------------------------------------示例------------------------------------------------- //
-
+// https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toDataURL
 // const config = {
 //     fontSize: 30,
 //     fontWeight: 'bold',
