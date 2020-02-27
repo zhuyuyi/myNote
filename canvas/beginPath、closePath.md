@@ -41,6 +41,22 @@ categories: canvas
 ```
 结果：<img src="https://s2.ax1x.com/2020/01/15/lXiKds.png" alt="lXiKds.png" border="0" />
 
+https://www.cnblogs.com/ghostwu/p/7593821.html  参考文章
+
+在画每一条线之前，我都用storeStyle设置了线的颜色，但是，出来的结果两条红线。为什么呢？
+
+首先我们要搞清楚canvas渲染图形，它是基于状态的，所谓状态就是每一次用( stroke/fill )之类的API渲染图形的时候，canvas会检查整个程序定义的( strokeStyle, fillStyle, lineWidth等 ）当一个状态值没有被改变时，canvas就一直用这个状态。如果被改变，这里就要注意了：
+
+1，如果使用beginPath()开始一个新的路径，则不同路径使用当前路径的值
+
+2，如果没有使用beginPath()开始一个新的路径，后面的会覆盖前面的.
+
+而我们这个程序就是属于第2种情况，尽管strokeStyle被改变了，但是没有用beginPath()开启新路径，所以前面两个strokeStyle会被最后一个strokeStyle='red'覆盖。所以两条线都是红色.
+
+看完这段解释，你应该知道怎样修改了吧？
+
+只需要把每条线设置在不同的路径中，就可以区分了
+
 1. beginPath
 
 * `canvas`中的绘制方法（如`stroke`, `fill`），都会以“上一次`beginPath`”之后的所有路径为基础进行绘制。
