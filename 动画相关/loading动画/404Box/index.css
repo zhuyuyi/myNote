@@ -84,10 +84,10 @@ div {
 
 @keyframes zeroFour {
   0% {
-    content: '你';
+    content: '4';
   }
   100% {
-    content: '好';
+    content: '0';
   }
 }
 
