@@ -7,30 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>滤镜滴水文字</title>
     <style>
-        html,
-        body {
+        .body {
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #000;
-            -webkit-filter: blur(3px) contrast(10);
+            background: #fff;
             filter: blur(3px) contrast(10);
         }
-        
-        div {
+
+        .text {
             position: relative;
             width: 1076px;
             height: 118px;
-            color: #fff;
+            color: #333;
             font-size: 124px;
             text-align: center;
             margin: 100px auto;
-            border-bottom: 10px solid #fff;
-            -webkit-transform: skewY(5deg);
+            border-bottom: 10px solid #333;
             transform: skewY(5deg);
         }
-        
-        div::before {
+
+        .text::before {
             position: absolute;
             content: "";
             left: 10px;
@@ -38,14 +35,12 @@
             width: 10px;
             height: 20px;
             border-radius: 50%;
-            background: #fff;
-            -webkit-transform: translate(0, 0);
+            background: #333;
             transform: translate(0, 0);
-            -webkit-animation: move 12.5s ease-in-out infinite;
             animation: move 12.5s ease-in-out infinite;
         }
-        
-        div::after {
+
+        .text::after {
             position: absolute;
             content: "";
             left: 8px;
@@ -53,44 +48,40 @@
             width: 10px;
             height: 20px;
             border-radius: 50%;
-            background: #fff;
-            -webkit-transform: translate(0, 0);
+            background: #333;
             transform: translate(0, 0);
-            -webkit-animation: move 12.5s ease-in-out 1s infinite;
             animation: move 12.5s ease-in-out 1s infinite;
         }
-        
+
         @-webkit-keyframes move {
             80% {
                 bottom: -30px;
-                -webkit-transform: translate(1050px, 0);
                 transform: translate(1050px, 0);
             }
+
             93% {
-                -webkit-transform: translate(1050px, 3px);
                 transform: translate(1050px, 3px);
                 opacity: 1;
             }
+
             100% {
-                -webkit-transform: translate(1050px, 150px);
                 transform: translate(1050px, 150px);
                 opacity: 0;
             }
         }
-        
+
         @keyframes move {
             80% {
                 bottom: -30px;
-                -webkit-transform: translate(1050px, 0);
                 transform: translate(1050px, 0);
             }
+
             93% {
-                -webkit-transform: translate(1050px, 3px);
                 transform: translate(1050px, 3px);
                 opacity: 1;
             }
+
             100% {
-                -webkit-transform: translate(1050px, 150px);
                 transform: translate(1050px, 150px);
                 opacity: 0;
             }
@@ -100,8 +91,15 @@
 
 <body>
     <div>
-        404 NOT FOUND
+        <div>
+            <div class="body">
+                <div class="text">
+                    404 NOT FOUND
+                </div>
+            </div>
+        </div>
     </div>
+
 </body>
 
 </html>
