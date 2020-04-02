@@ -101,7 +101,6 @@
             let x = e.layerX;
             let y = e.layerY;
             let pixel = ctx.getImageData(x, y, 1, 1); // 获取图片像素信息
-            console.log(pixel, 'pixel')
             let data = pixel.data;
             let rgba = `rgb(${data[0]},${data[1]},${data[2]})`; // 获取rgba值
             let hash = `#${scale(data[0])}${scale(data[1])}${scale(data[2])}`; // 获取十六进制值

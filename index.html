@@ -21,13 +21,13 @@
 
         img {
             clip-path: polygon(50% 0, 100% 50%,
-                50% 100%, 0 50%);
+                    50% 100%, 0 50%);
             transition: 1s clip-path;
         }
 
         img:hover {
             clip-path: polygon(0 0, 100% 0,
-                100% 100%, 0 100%);
+                    100% 100%, 0 100%);
         }
     </style>
 </head>
@@ -39,7 +39,11 @@
     </div>
 
     <script>
-
+        let markdownText = '==ddfsdfsdfsfsdf==';
+        let reg = /==([\w\W]+)==/g;
+        console.dir(RegExp)
+        let text = markdownText.replace(reg, '<mark>$1</mark>');
+        console.log(text)
     </script>
 </body>
 
