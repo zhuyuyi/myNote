@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue双向绑定</title>
+    
+</head>
+<body>
+    <div id="app">
+        <h4 v-bind="zyy"></h4>
+        <form>
+          <input type="text"  v-model="zyy">
+          <button type="button" v-click="getzyy">增加</button>
+        </form>
+        <h3 v-bind="zyy"></h3>
+        
+    </div>
+    <script src="index.js"></script>
+    <script>
+        var app = new myVue({
+            el:'#app',
+            data: {
+                zyy: 0
+            },
+            methods: {
+                getzyy() {
+                    this.zyy ++;
+                },
+            }
+        })
+    </script>
+</body>
+</html>

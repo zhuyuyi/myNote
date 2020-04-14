@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // var regex = /[^a-c]/g;
+        var regex = new RegExp(`[a-c]`, 'g')
+        var string = "b";
+        var string2 = 'c'
+        var arr = string.match(regex);
+        var arr2 = string2.match(regex);
+        console.log(arr);
+        console.log(regex.exec(string))
+
+        var regex = /ab{2,5}c/g;
+        var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        var arr = string.match(regex);
+        console.log(arr);
+
+        regex.lastIndex = 10;
+        var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        var arr = string2.match(regex);
+        console.log(arr, '第三个');
+
+        var regex = /ab{2,5}c/g;
+        var string = "abc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        console.log(regex.exec(string), '第四个');
+
+        regex.lastIndex = 10;
+        var string2 = "abbc abbc abbbc abbbbc abbbbbc abbbbbbc";
+        console.log(regex.exec(string2));
+
+        var regex = /a[\^\-\`/]b/g;
+        var string = "a^b abb  a34b a4b";
+        var arr = string.match(regex);
+        console.log(arr);
+
+        var regex = /\d{2,5}?/g;
+        var string = "123 1234 12345 123456";
+        console.log(string.match(regex));
+
+        var regex = /id=(("[\w]{0,}")|('[\w]{0,}'))/g
+        var string = "<div id='container' class='main'></div>";
+        console.log(string.match(regex));
+
+        var regex = /^([a-zA-Z]:\\)([^\\:*<>|"?\r\n/]+\\)*([^\\:*<>|"?\r\n/]+)?$/;
+        console.log(regex.test("F:\\study\\javascript\\regex\\regular\\expression.pdf"));
+        console.log(regex.test("F:\\study\\javascript\\regex\\"));
+        console.log(regex.test("F:\\javascript"));
+        console.log(regex.test("F:\\"));
+        console.log(RegExp, '文件')
+
+        var result = "hello".replace(/^|$/g, '#');
+        console.log(result);
+
+        var result = "[JS] Lesson_01.mp4".replace(/\b/g, '#');
+        console.log(result);
+
+        var result = "hello".replace(/(?<=ll)/g, '#');
+        console.log(result);
+
+        var regex = /.^/g;
+        regex.test('hello')
+        console.log(regex.test('hello'));
+
+        var result = "012345678".replace(/(?=[0-9]{3}$)/g, ',')
+        console.log(result);
+
+        var result = "012345678".replace(/(?=([0-9]{3}){1,}$)/g, ',')
+        console.log(result);
+
+        var string1 = "12345678",
+            string2 = "123456789";
+        reg = /(?!^)(?=(\d{3})+$)/g;
+
+        var result = string1.replace(reg, ',')
+        console.log(result);
+        // => "12,345,678"
+
+        result = string2.replace(reg, ',');
+        console.log(result);
+        // => "123,456,789"
+
+        var regex = /^([01]\d|2[0-3]):(?<zyy>[0-5]\d)$/g
+        console.log(regex.exec("23:59"), '测试');
+        console.dir(regex.lastIndex);
+        // regex.lastIndex = 0;
+        console.log(regex.exec("23:59"));
+
+        var num = ' 123456789';
+        console.log(num.replace(/(?!\b)(?=(\d{3})+$)/g, ','), '最后一个例子');
+
+        function formatDigit(num) {
+            let num2 = parseInt(num);
+            return num2.toFixed(2).replace(/(?!\b)(?=(\d{3})+\b)/g, ',').replace(/^/, '￥ ')
+        }
+
+        var num = 123456789;
+        console.log(formatDigit(num))
+    </script>
+</body>
+
+</html>

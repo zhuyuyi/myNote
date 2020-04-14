@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Lato);
+
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: black;
+        }
+
+        .card {
+            width: 30em;
+            height: 30em;
+            padding: 10em;
+            display: flex;
+            flex-wrap: wrap;
+            background: black;
+            filter: blur(15px) contrast(30);
+        }
+
+        .card .snow {
+            position: relative;
+            width: 3em;
+            height: 3em;
+            border-radius: 100%;
+        }
+
+        .card .snow::after {
+            position: absolute;
+            content: "";
+            left: 0;
+            width: inherit;
+            height: inherit;
+            background: white;
+            transition: 30s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .card .snow:hover::after {
+            transform: scale(0);
+            transition-duration: 0.3s;
+        }
+
+        p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 9999;
+            color: white;
+            font-family: Lato, sans-serif;
+            font-size: 4em;
+            line-height: 1em;
+            letter-spacing: 0.1em;
+            transform: translate(-47%, -160%);
+            pointer-events: none;
+            filter: blur(1px) contrast(20);
+        }
+    </style>
+</head>
+
+<body>
+    <p>Emilia</p>
+    <div class="card"></div>
+    <script>
+        let card = document.querySelector('.card');
+        for (let i = 0; i < 100; i++) {
+            let div = document.createElement('div');
+            div.className = 'snow'
+            card.append(div)
+        }
+    </script>
+</body>
+
+</html>

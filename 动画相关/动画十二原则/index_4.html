@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+/******* FOUR (Straight ahead / Pose to pose) *******/
+
+.four .shape.a {
+    left: calc(50% - 8em);
+    animation: four 6s infinite cubic-bezier(.57,-0.5,.43,1.53);
+}
+
+.four .shape.b {
+  left: calc(50% + 8em);
+  animation: four 6s infinite steps(1);
+}
+
+@keyframes four {
+  0%, 10% {
+    transform: none;
+  }
+  26%, 30% {
+    transform: rotateZ(-45deg) scale(1.25);
+  }
+  40% {
+    transform: rotateZ(-45deg) translate(2em, -2em) scale(1.8);
+  }
+  50%, 75% {
+    transform: rotateZ(-45deg) scale(1.1);
+  }
+  90%, 100% {
+    transform: none;
+  }
+}
+
+/* General styling */
+body {
+  margin: 0;
+  background: #e9b59f;
+  font-family: HelveticaNeue, Arial, Sans-serif;
+  color: #fff;
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: 300;
+}
+
+h2 {
+  font-size: 0.75em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+.principle {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.shape {
+  background: #2d97db;
+  border: 1em solid #fff;
+  width: 4em;
+  height: 4em;
+  position: absolute;
+  top: calc(50% - 2em);
+  left: calc(50% - 2em);
+}
+	</style>
+</head>
+<body>
+	<h1>连续运动和姿态对应 (Straight-Ahead Action and Pose-to-Pose)</h1>
+	<article class="principle four">
+    	<div class="shape a"></div>
+    	<div class="shape b"></div>
+  	</article>
+</body>
+</html>

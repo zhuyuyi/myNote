@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class SubBase {
+            click() {
+                function success() {
+                    console.log(this, 'es6'); // es6 undefined 
+                }
+                success();
+            }
+        }
+        let subBase = new SubBase;
+        subBase.click();
+
+        // function Base() { }
+        // Base.prototype.click = function () {
+        //     debugger
+        //     function success() {
+        //         console.log(this, 'es5') // es5写法挂载到 window 对象下  node环境下一样。
+        //     }
+        //     success()
+        // }
+        // let base = new Base();
+        // base.click()
+    </script>
+</body>
+
+</html>

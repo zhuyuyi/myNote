@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 300px;
+            height: 300px;
+            background-color: aqua;
+        }
+
+        .child {
+            border-radius: 10px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(#fb3 50%, #58a 50%);
+            border: 10px solid #655;
+            outline: 5px solid deeppink;
+            margin: 0 auto;
+            outline-offset: -10px;
+        }
+
+        .box2 {
+            margin-top: 10px;
+            background: linear-gradient(45deg,
+                #fb3 25%, #58a 0, #58a 50%,
+                #fb3 0, #fb3 75%, #58a 0);
+            background-size: 30px 30px;
+        }
+
+        .box3 {
+            margin-top: 10px;
+            background: repeating-linear-gradient(45deg,
+                #fb3, #58a 150px);
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="child"></div>
+        <div class="child"></div>
+    </div>
+
+    <div class="box2"></div>
+
+    <div class="box3"></div>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="input_1" type="text" value="">
+    <button id="button">确定输入</button>
+    <script>
+        // 连续输入字符串（输入的字符串个数为N，每个字符串长度不大于100，输入字符串之间按照空格键分割），
+        // 请按长度为8拆分每个字符串后  输出到新的字符串数据，输出的字符串按升序排序。
+        // 长度不是 8 的整数倍数的字符串请在后面补上数字0，空字符串不处理。
+
+        let input = document.getElementById('input_1');
+        let value = input.value;
+        input.onchange = function(e) {
+            value = e.target.value;
+        }
+
+        let btn = document.getElementById('button');
+        btn.onclick = function() {
+            let arr = value.split(' ');
+            let arrReal = [];
+            arr.forEach((item, index) => {
+                let length = item.length
+                if (length > 8) {
+                    let temArr = overEight(item);
+                    arrReal = [...arrReal, ...temArr];
+                } else {
+                    arrReal.push(item);
+                }
+            });
+            arrReal = belowEight(arrReal);
+            arrReal = mySort(arrReal);
+            console.log(arrReal);
+            arr = [];
+        }
+
+        function mySort(arrReal) {
+            arrReal.sort();
+            return arrReal;
+        }
+
+        function belowEight(arrReal) {
+            arrReal.forEach((item, index) => {
+                let length = item.length;
+                for (let i = 0; i < 8 - length; i++) {
+                    item = item + '0';
+                    arrReal[index] = item;
+                }
+            })
+            return arrReal;
+        }
+
+        function overEight(item) {
+            let temArr = [];
+            let length = item.length
+            let a = Math.ceil(length / 8)
+            for (let j = 0; j < a; j++) {
+                if (length > 8 * j + 8) {
+                    let tem = item.slice(8 * j, 8 * j + 8);
+                    temArr.push(tem)
+                } else {
+                    let tem = item.slice(8 * j, length);
+                    temArr.push(tem)
+                }
+            }
+            return temArr;
+        }
+    </script>
+</body>
+
+</html>

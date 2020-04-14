@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .app {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 150px auto;
+            /* repeat用法 */
+            grid-template-rows: 150px auto;
+            /* 间距 */
+            grid-row-gap: 20px;
+            grid-column-gap: 20px;
+            /* 先填充行还是先填充列 */
+            grid-auto-flow: row;
+            grid-auto-rows: 50px;
+        }
+
+        .div-box {
+            background-color: aqua;
+        }
+
+        .item-1 {
+            grid-column: 1;
+            grid-row: 1 / 3;
+        }
+
+        .item-3 {
+            grid-row: 2 / 3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="div-box item-1">333</div>
+        <div class="div-box item-2">333</div>
+        <div class="div-box item-3">444</div>
+
+    </div>
+</body>
+
+</html>

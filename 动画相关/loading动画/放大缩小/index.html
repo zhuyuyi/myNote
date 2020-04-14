@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: black;
+        }
+
+        .loading {
+            display: flex;
+            color: white;
+            font-size: 2rem;
+            font-family: Lato, sans-serif;
+            letter-spacing: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .loading span {
+            animation: shrink 2s infinite;
+        }
+
+        @keyframes shrink {
+            50% {
+                transform: scale(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading">Loading</div>
+    <script>
+        let loading = document.querySelector(".loading");
+        let letters = loading.textContent.split("");
+        loading.textContent = "";
+        letters.forEach((letter, i) => {
+            let span = document.createElement("span");
+            span.textContent = letter;
+            span.style.animationDelay = `${i / 10}s`;
+            loading.append(span);
+        });
+    </script>
+</body>
+
+</html>

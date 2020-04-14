@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- 这是一个失败的粒子 -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>粒子动画2</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const winWidth = document.documentElement.clientWidth;
+        const winHeight = document.documentElement.clientHeight;
+        canvas.width = winWidth;
+        canvas.height = winHeight;
+        const dotList = [];
+
+        let img = new Image();
+        img.src = "./../pic/icon-shop.png"; // 地址
+        let imgW; // 图片宽
+        let imgH; // 图片高
+        let sx; // 渲染图片中心点
+        let sy; // 渲染图片中心点
+
+        if (img.complete) { // 图片加载完毕
+            init()
+        } else {
+            img.onload = function () {
+                init()
+            }
+        }
+
+        function init() {
+            imgW = img.width;
+            imgH = img.height;
+            sx = winWidth / 2 - imgW / 2; // 绘制 中心点 x
+            sy = winHeight / 2 - imgH / 2; // 绘制 中心点 y
+
+            ctx.drawImage(img, sx, sy); // 绘图
+
+            let imgData = ctx.getImageData(sx, sy, imgW, imgH); // 获取像素点 一维数组 rgba依次列开
+
+            ctx.clearRect(0, 0, winWidth, winHeight);
+            ctx.fillStyle = "#000";
+
+            for (let x = 0; x < imgData.width; x += 6) { // 行循环
+                for (let y = 0; y < imgData.height; y += 6) { // 列循环
+                    var i = y * imgData.width + x; // 第x行第y列的元素
+                    if (imgData.data[i * 4 + 3] > 128) { // 透明度 < 128 不显示
+                        let dot = new Dot(x, y, 2); // 实例化对象
+                        dotList.push(dot);
+                        requestAnimationFrame(dot.draw.bind(dot));
+                    }
+                }
+            }
+        }
+
+        let rafId = null;
+
+        class Dot {
+            constructor(centerX, centerY, radius) {
+                this.x = centerX; // 点 x 坐标
+                this.y = centerY; // 点 y 坐标 
+                this.radius = radius; // ⚪大小
+                this.frameNum = 0; // fps 第一帧
+                this.frameCount = Math.ceil(3000 / 16.66); // 帧率
+                this.sx = 400; // 初始点
+                this.sy = 400; // 初始点
+                this.delay = this.frameCount * Math.random(); // 延迟执行
+                this.delayCount = 0; // 延迟计数,粒子等待多少帧执行
+                this.curX = 0; // 粒子运动过程中的点
+                this.curY = 0; // 粒子运动过程中的点
+                this.finishCount = 0;
+            }
+            draw() {
+                if (this.delayCount < this.delay) {
+                    this.delayCount++;
+                    rafId = requestAnimationFrame(this.draw.bind(this));
+                    return
+                }
+                ctx.clearRect(this.curX, this.curY, 2 * Math.PI, 2 * Math.PI);
+                ctx.beginPath();
+
+                if (this.frameNum < this.frameCount) {
+                    this.curX = this.easeInOutCubic(this.frameNum, this.sx, this.x - this.sx, this.frameCount);
+                    this.curY = this.easeInOutCubic(this.frameNum, this.sy, this.y - this.sy, this.frameCount);
+                    // ctx.clearRect(this.x, this.y, 2 * Math.PI, 2 * Math.PI);
+                    ctx.arc(this.curX, this.curY, this.radius, 0, 2 * Math.PI);  // 画圆
+                    this.frameNum++;
+                } else {
+                    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+                    this.finishCount++;
+                }
+                ctx.fill();
+                if (this.finishCount >= dotList.length) {
+                    cancelAnimationFrame(rafId);
+                    return;
+                }
+                rafId = requestAnimationFrame(this.draw.bind(this));
+            }
+            // 网上摘录的缓动函数 t 当前时间 b 初始值 c 总位移 d 总时间
+            easeInOutCubic(t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+                return c / 2 * ((t -= 2) * t * t + 2) + b;
+            }
+        }
+    </script>
+</body>
+
+</html>
+<!-- 这是一个失败的粒子 -->

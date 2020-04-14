@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 给定义个数组，里面有 6个整数，求这个数组能表示的最大的24禁止的时间是多少，输出这个时间，无则表示 invalid。
+        let time = '';
+        let str1 = [],
+            str2 = [],
+            str3 = [],
+            str4 = [];
+        let arr = [0, 2, 3, 0, 6, 5];
+        arr = arr.sort().reverse();
+        console.log(arr);
+        arr.forEach((item, index) => {
+            debugger
+            if (item <= 2 && str1.length < 1) {
+                str1.push(item);
+            } else if (str2.length < 1 && (item <= 4 || str1.length >= 1)) {
+                str2.push(item);
+            } else if (str3.length < 2 && (item <= 5 || str2.length >= 1)) {
+                str3.push(item);
+            } else if (str3.length >= 2 || item >= 6) {
+                str4.push(item);
+            }
+        });
+        console.log(str1, str2, str3, str4);
+        if (str1.length <= 0) {
+            console.log('invalid');
+        } else if (str2.length <= 0) {
+            console.log('invalid');
+        } else if (str3.length <= 1) {
+            console.log('invalid');
+        } else if (str4.length >= 3) {
+            console.log('invalid');
+        } else {
+            time = str1[0] + '' + str2[0] + ':' + str3[0] + '' + str4[0] + ':' + str3[1] + '' + str4[1];
+            console.log(time);
+        }
+    </script>
+</body>
+
+</html>
