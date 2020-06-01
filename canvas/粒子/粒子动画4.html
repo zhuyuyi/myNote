@@ -28,8 +28,10 @@
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        const winWidth = document.documentElement.clientWidth;
-        const winHeight = document.documentElement.clientHeight;
+        // const winWidth = document.documentElement.clientWidth;
+        const winWidth = 1400;
+        // const winHeight = document.documentElement.clientHeight;
+        const winHeight = 800;
         canvas.width = winWidth;
         canvas.height = winHeight;
         ctx.textBaseline = "top"; // 会发现文字被截掉了一部分,这是因为 Canvas 画出来的文本在垂直方向并不是按顶部对齐的，类似 css 中的 vertical-align 属性，Canvas 可可以通过 contex 的 textBaseline 属性来设置文字的对其方式
@@ -45,14 +47,14 @@
             if (rafId) cancelAnimationFrame(rafId); // 有动画就清除动画
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.font = '150px 黑体';
-            ctx.fillText(input.value ? input.value : '育仪', 100, 100);
+            ctx.fillText(input.value ? input.value : '育仪', 0, 0);
 
             let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             for (let x = 0; x < imgData.width; x += 3) { // 行循环
                 for (let y = 0; y < imgData.height; y += 3) { // 列循环
                     let i = y * imgData.width + x; // 第x行第y列的元素
                     if (imgData.data[i * 4 + 3] > 128) { // 透明度 < 128 不显示
-                        let dot = new Dot(x + 100, y + 100, 1); // 实例化对象
+                        let dot = new Dot(x, y, 1); // 实例化对象
                         dotList.push(dot);
                     }
                 }
@@ -100,9 +102,9 @@
                 this.y = centerY; // 点 y 坐标 
                 this.radius = radius; // ⚪大小
                 this.frameNum = 0; // fps:动画的每一帧
-                this.frameCount = Math.ceil(3000 / 16.66); // 帧率  1s 60帧，1帧为16.66ms，3s会有 多少帧  3000 / 16.66 约等于 180 帧
-                this.sx = Math.random() * 800; // 喷射初始点
-                this.sy = Math.random() * 500; // 喷射初始点
+                this.frameCount = Math.ceil(2000 / 16.66); // 帧率  1s 60帧，1帧为16.66ms，3s会有 多少帧  3000 / 16.66 约等于 180 帧
+                this.sx = Math.random() * winWidth; // 喷射初始点
+                this.sy = Math.random() * winHeight; // 喷射初始点
                 this.delay = this.frameCount * Math.random(); // 延迟执行的随机数，让粒子随机动态生成
                 this.delayCount = 0; // 延迟计数,粒子等待多少帧执行
             }
