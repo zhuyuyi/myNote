@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body{
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.querySelector('#canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        let canvasObj = {
+            width:canvas.width,
+            height:canvas.height,
+        }
+        const COUNT = 1; // 樱花数量
+        const MAX_ADDING_INTERVAL = 10; // 樱花飘落个数，设置值越大，飘落越少
+        let cherries = []; // 樱花数组
+        let maxAddingInterval = Math.round(MAX_ADDING_INTERVAL * 1000 / canvas.width); // 樱花凋落时动态数量掉落数量
+        let addingInterval = maxAddingInterval; // 赋值
+
+        // 场景渲染类
+        function render() {
+            requestAnimationFrame(render);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // 将樱花排序
+		    cherries.sort((cherry1, cherry2)=>{
+		    	return cherry1.z - cherry2.z;
+            });
+		    for(let i = cherries.length - 1; i >= 0; i--){
+                // 判断樱花是否飘落
+		    	if(!cherries[i].render(ctx)){
+		    		cherries.splice(i, 1);
+		    	}
+		    }
+		    if(--addingInterval === 0){
+                // 当掉落的樱花 增加数 变为零 重新往数组中push
+		    	addingInterval = maxAddingInterval;
+		    	cherries.push(new CherryBlossom(canvasObj, false));
+		    }
+        }
+
+        // 创建樱花
+        function createCherries() { 
+            for(let i = 0, length = Math.round(COUNT * canvas.width / 1000); i < length; i++){
+		    	cherries.push(new CherryBlossom(canvasObj, true));
+		    }
+        }
+
+        // 樱花类
+        class CherryBlossom {
+            constructor(renderer, isRandom){
+
+                this.renderer = renderer; // canvas宽高，为了方便读取
+                this.focusPosition = 300; // 场景的视距最小值
+                this.farLimit = 600; // 场景的视距，越大场景距离肉眼越远
+
+                this.maxRippleCount = 100; // 最大涟漪数量
+                this.rippleRandius = 100; // 涟漪波纹大小
+                this.rippleCount = 0; // 涟漪数量
+
+                this.surfaceRate = 0.5; // 水平面的大小尺度
+                this.sinkOffset = 20; // 控制 樱花飘落的常量参数
+                this.x = this.getRandomValue(-this.renderer.width, this.renderer.width); // 樱花飘落的x轴方向距离
+		        this.y = isRandom ? this.getRandomValue(0, this.renderer.height) : this.renderer.height * 1.5; // 樱花飘落的y轴方向距离
+		        this.z = this.getRandomValue(0, this.farLimit); // z轴方向，假z轴，2d
+		        this.vx = this.getRandomValue(-2, 2); // x轴运动速度
+                this.vy = -2; // y轴运动速度
+                
+		        this.theta = this.getRandomValue(0, Math.PI * 2); // 樱花飘落时的旋转动作
+		        this.phi = this.getRandomValue(0, Math.PI * 2); // 控制樱花掉落水面动作
+		        this.psi = 0; // 花瓣触屏水面时,旋转的动作速度
+                this.dpsi = this.getRandomValue(Math.PI / 600, Math.PI / 300); // 运动动作加速度
+                
+		        this.opacity = 0; // 倒影透明度
+		        this.endTheta = false; // 花瓣触碰水面
+		        this.endPhi = false; // 掉落到水面上
+            
+                this.init(isRandom);
+            }
+            init(isRandom){
+                let axis = this.getAxis();
+		        let	theta = this.theta + Math.ceil(-(this.y + this.renderer.height * this.surfaceRate) / this.vy) * Math.PI / 500;
+                theta %= Math.PI * 2;
+                this.offsetY = 40 * ((theta <= Math.PI / 2 || theta >= Math.PI * 3 / 2) ? -1 : 1);
+		        this.thresholdY = this.renderer.height / 2 + this.renderer.height * this.surfaceRate * axis.rate; // 中轴线
+                // 设置上方飘落的樱花渐变色
+                this.entityColor = ctx.createRadialGradient(0, 40, 0, 0, 40, 80);
+		        this.entityColor.addColorStop(0, 'hsl(330, 70%, ' + 50 * (0.3 + axis.rate) + '%)');
+		        this.entityColor.addColorStop(0.05, 'hsl(330, 40%,' + 55 * (0.3 + axis.rate) + '%)');
+                this.entityColor.addColorStop(1, 'hsl(330, 20%, ' + 70 * (0.3 + axis.rate) + '%)');
+                // 设置下方倒影的樱花渐变色
+		        this.shadowColor = ctx.createRadialGradient(0, 40, 0, 0, 40, 80);
+		        this.shadowColor.addColorStop(0, 'hsl(330, 40%, ' + 30 * (0.3 + axis.rate) + '%)');
+		        this.shadowColor.addColorStop(0.05, 'hsl(330, 40%,' + 30 * (0.3 + axis.rate) + '%)');
+		        this.shadowColor.addColorStop(1, 'hsl(330, 20%, ' + 40 * (0.3 + axis.rate) + '%)');
+            }
+            // 获取随机值
+            getRandomValue(min, max){
+	        	return min + (max - min) * Math.random();
+            }
+            // 获取樱花在坐标系中的位置
+            getAxis(){
+	        	let rate = this.focusPosition / (this.z + this.focusPosition), // rate 模拟3d效果
+	        		x = this.renderer.width / 2 + this.x * rate,
+                    y = this.renderer.height / 2 - this.y * rate;
+	        	return {rate, x, y};
+            }
+            // 渲染樱花
+            renderCherry(context, axis){
+	        	context.beginPath();
+	        	context.moveTo(0, 40);
+	        	context.bezierCurveTo(-60, 20, -10, -60, 0, -20);
+	        	context.bezierCurveTo(10, -60, 60, 20, 0, 40);
+	        	context.fill();
+
+	        	for(let i = -4; i < 4; i++){
+	        		context.beginPath();
+	        		context.moveTo(0, 40);
+	        		context.quadraticCurveTo(i * 12, 10, i * 4, -24 + Math.abs(i) * 2);
+	        		context.stroke();
+	        	}
+            }
+            render(context){
+                let axis = this.getAxis();
+                // 樱花掉到水面上的涟漪判断
+                if(axis.y == this.thresholdY && this.rippleCount < this.maxRippleCount){
+		        	context.save();
+		        	context.lineWidth = 2;
+		        	context.strokeStyle = 'hsla(0, 0%, 100%, ' + (this.maxRippleCount - this.rippleCount) / this.maxRippleCount + ')';
+		        	context.translate(axis.x + this.offsetY * axis.rate * (this.theta <= Math.PI ? -1 : 1), axis.y);
+		        	context.scale(1, 0.3);
+		        	context.beginPath();
+		        	context.arc(0, 0, this.rippleCount / this.maxRippleCount * this.rippleRandius * axis.rate, 0, Math.PI * 2, false);
+		        	context.stroke();
+		        	context.restore();
+		        	this.rippleCount++;
+                }
+                // 倒影
+		        if(axis.y < this.thresholdY || (!this.endTheta || !this.endPhi)){
+		        	if(this.y <= 0){
+		        		this.opacity = Math.min(this.opacity + 0.01, 1);
+		        	}
+		        	context.save();
+		        	context.globalAlpha = this.opacity;
+		        	context.fillStyle = this.shadowColor;
+		        	context.strokeStyle = 'hsl(330, 30%,' + 40 * (0.3 + axis.rate) + '%)';
+		        	context.translate(axis.x, Math.max(axis.y, this.thresholdY + this.thresholdY - axis.y));
+		        	context.rotate(Math.PI - this.theta);
+		        	context.scale(axis.rate * -Math.sin(this.phi), axis.rate);
+		        	context.translate(0, this.offsetY);
+		        	this.renderCherry(context, axis);
+		        	context.restore();
+                }
+                // 真实樱花
+		        context.save();
+		        context.fillStyle = this.entityColor;
+		        context.strokeStyle = 'hsl(330, 40%,' + 70 * (0.3 + axis.rate) + '%)';
+		        context.translate(axis.x, axis.y + Math.abs(this.sinkOffset * Math.sin(this.psi) * axis.rate));
+		        context.rotate(this.theta);
+		        context.scale(axis.rate * Math.sin(this.phi), axis.rate); // 通过rate 模拟3d视差效果
+		        context.translate(0, this.offsetY);
+		        this.renderCherry(context, axis);
+		        context.restore();
+        
+                // 掉落快要完成的时候触发,让樱花渐渐的以水平方向掉落在水面上
+		        if(this.y <= -this.renderer.height / 4){
+		        	if(!this.endTheta){
+		        		for(let theta = Math.PI / 2, end = Math.PI * 3 / 2; theta <= end; theta += Math.PI){
+		        			if(this.theta < theta && this.theta + Math.PI / 200 > theta){
+		        				this.theta = theta;
+		        				this.endTheta = true;
+		        				break;
+		        			}
+		        		}
+		        	}
+		        	if(!this.endPhi){
+		        		for(let phi = Math.PI / 8, end = Math.PI * 7 / 8; phi <= end; phi += Math.PI * 3 / 4){
+		        			if(this.phi < phi && this.phi + Math.PI / 200 > phi){
+		        				this.phi = Math.PI / 8;
+		        				this.endPhi = true;
+		        				break;
+		        			}
+		        		}
+		        	}
+		        }
+		        if(!this.endTheta){
+		        	if(axis.y === this.thresholdY){
+                        // 掉落未完成,但花瓣已经触碰到水面,开始模拟掉落水面现象
+		        		this.theta += Math.PI / 200 * ((this.theta < Math.PI / 2 || (this.theta >= Math.PI && this.theta < Math.PI * 3 / 2)) ? 1 : -1);
+		        	}else{
+		        		this.theta += Math.PI / 500;
+		        	}
+		        	this.theta %= Math.PI * 2;
+		        }
+		        if(this.endPhi){
+                    // 完全掉落到水面上
+		        	if(this.rippleCount === this.maxRippleCount){
+		        		this.psi += this.dpsi;
+		        		this.psi %= Math.PI * 2;
+		        	}
+		        }else{
+		            this.phi += Math.PI / ((axis.y == this.thresholdY) ? 200 : 500);
+		            this.phi %= Math.PI;
+		        }
+		        if(this.y <= -this.renderer.height * this.surfaceRate){
+		        	this.x += 2;
+		        	this.y = -this.renderer.height * this.surfaceRate;
+		        }else{
+		        	this.x += this.vx;
+		        	this.y += this.vy;
+                }
+                // 通过该参数来判断樱花是否走出屏幕,清除该花瓣
+		        return this.z > -this.focusPosition && this.z < this.farLimit && this.x < this.renderer.width * 1.5;
+            }
+        }
+        createCherries();
+        render();
+    </script>
+</body>
+</html>
