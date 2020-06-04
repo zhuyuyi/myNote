@@ -99,7 +99,10 @@
 		        this.thresholdY = this.renderer.height / 2 + this.renderer.height * this.surfaceRate * axis.rate; // 中轴线
                 // 设置上方飘落的樱花渐变色
                 this.entityColor = ctx.createRadialGradient(0, 40, 0, 0, 40, 80);
-		        this.entityColor.addColorStop(0, 'hsl(330, 70%, ' + 50 * (0.3 + axis.rate) + '%)');
+				// this.entityColor.addColorStop(0, '#fff'); // 7ce38f
+				// this.entityColor.addColorStop(0.05,'#76d889');
+				// this.entityColor.addColorStop(1,'#5eb86f');
+		        this.entityColor.addColorStop(0, `hsl(330, 70%, ${50 * (0.3 + axis.rate)}%)`);
 		        this.entityColor.addColorStop(0.05, 'hsl(330, 40%,' + 55 * (0.3 + axis.rate) + '%)');
                 this.entityColor.addColorStop(1, 'hsl(330, 20%, ' + 70 * (0.3 + axis.rate) + '%)');
                 // 设置下方倒影的樱花渐变色
