@@ -26,11 +26,13 @@ useCommandShortcut|`Boolean`|是否使用键盘快捷命令|true
 toolbarItems|`Array`|顶部导航（可用于自定义导航）|
 plugins|`Array`|额外的插件|
 linkAttribute|`Object`|a标签超链接的跳转方式（无法实现自动检测是页面内锚点还是跳转链接，所以不建议使用）[写法issues链接](https://github.com/nhn/tui.editor/issues/527)|
-events|`Object`|事件|
-hooks|`Object`|生命周期钩子函数(previewBeforeHook\addImageBlobHook)|
+<span style="color:#d04d4d">events</span>|`Object`|事件|
+<span style="color:#d04d4d">hooks</span>|`Object`|生命周期钩子函数(previewBeforeHook\addImageBlobHook)|
 language|`String`|语言，需要特别引入国际化语言包，使用方式见本文章最下方。|'en-US'
 extendedAutolinks|`Boolean`|自动识别用户写的内容是否时链接，可以直接跳转（不建议）|false
 customHTMLRenderer|`Object`|自定义渲染|
+useDefaultHTMLSanitizer|`Boolean`|html取代器|true
+customHTMLSanitizer|`Function`|html脏字去除器|
 
 ```javascript
 // 关于自定义渲染的部分示例代码
@@ -63,13 +65,15 @@ const editor = new toastui.Editor({
   }
 });
 ```
-useDefaultHTMLSanitizer（[开发者没有提供示例](https://github.com/nhn/tui.editor/pull/945)）、customHTMLSanitizer、customConvertor（[开发者没有提供有效的例子](https://github.com/nhn/tui.editor/pull/236)）暂时没有好的例子解释
-
+customConvertor（[开发者没有提供有效的例子](https://github.com/nhn/tui.editor/pull/236)）暂时没有好的例子解释
 [customHTMLRenderer](https://github.com/nhn/tui.editor/pull/894)  这里有个 issue ，并不知道干什么用的。
 
 ##### hooks 
 官方文档上只列出两个钩子函数，但是我在源码中发现有`49`个钩子函数
 ![](https://fe.che300.com/easymock/upload/2020/04/17/6fad0e13a3ed3f2a94acc86fa3acaf2f.png)
+
+`2020年6月9日更新`
+这里有个[issues](https://github.com/nhn/tui.editor/issues/871)发现了同样的问题
 
 ###### 使用方法
 ```javascript
@@ -217,6 +221,25 @@ this.editor = new Editor({
 });
 ```
 
+#### customHTMLSanitizer 用法
+DOMPurify清理HTML并防止XSS攻击。您可以使用充满脏HTML的字符串来填充DOMPurify，它将返回包含干净HTML的字符串（除非另行配置）。DOMPurify将清除包含危险HTML的所有内容，从而防止XSS攻击和其他危害。它也该死的快。我们使用浏览器提供的技术，并将其转换为XSS过滤器。浏览器速度越快，DOMPurify就会越快。
+```javascript
+      const content = [
+        '<img src=x onerror=alert(1)//>',
+        '<svg><g/onload=alert(2)//<p>',
+        '<p>abc<iframe//src=jAva&Tab;script:alert(3)>def</p>'
+      ].join('\n');
+
+      const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        previewStyle: 'vertical',
+        height: '500px',
+        initialValue: content,
+        customHTMLSanitizer: html => {
+          return DOMPurify.sanitize(html);
+        }
+      });
+```
 
 
 

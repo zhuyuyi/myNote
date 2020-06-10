@@ -1,5 +1,7 @@
 ## Markdown编辑器
 1.x版本 估计没有人会用了，现在主要说的是 2.1 版本的内容
+
+下面这个视频是 easymock3.3版本新加的自定义插件
 ```iframe
 https://assets.che300.com/feimg/wiki/video/showvideo.mp4
 ```
@@ -114,19 +116,17 @@ let getCodeMirror = this.editor.getCodeMirror();
 ```
 ##### getMarkdown()
 获取markdown中的数据
-##### hide()show()
-隐藏/显示编辑器
-##### remove()
-移除编辑器
-##### reset()
-重置
+
 ##### setMarkdown()
 插入文本，光标会被默认锁定到 文章末尾
+
 ##### insertText(text)
 插入文本，注意，这里他会记录上一次的光标位置插入。
+
 ```javascript
 this.editor.insertText('```\n\n```');
 ```
+
 #### CodeMirrorExt 光标对象
 
 详情见 toastUIEditor 第三部分
