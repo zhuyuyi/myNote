@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>粒子动画4</title>
+    <link rel="stylesheet" href="./../我喜欢的css库/糖果button.css" />
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="input-wrap">
+        <input id="txt" type="text" value="" placeholder="输入喷射文字">
+        <button id="btn" class="button orange glass">喷射</button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        // const winWidth = document.documentElement.clientWidth;
+        const winWidth = 1400;
+        // const winHeight = document.documentElement.clientHeight;
+        const winHeight = 800;
+        canvas.width = winWidth;
+        canvas.height = winHeight;
+        ctx.textBaseline = "top"; // 会发现文字被截掉了一部分,这是因为 Canvas 画出来的文本在垂直方向并不是按顶部对齐的，类似 css 中的 vertical-align 属性，Canvas 可可以通过 contex 的 textBaseline 属性来设置文字的对其方式
+
+        const input = document.getElementById('txt');
+        const btn = document.getElementById('btn');
+
+        let dotList = []; // 粒子数组
+        let rafId = null; // 动画函数的缓存
+
+        // 初始化
+        function init() {
+            if (rafId) cancelAnimationFrame(rafId); // 有动画就清除动画
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = '150px 黑体';
+            ctx.fillText(input.value ? input.value : '育仪', 0, 0);
+
+            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            for (let x = 0; x < imgData.width; x += 3) { // 行循环
+                for (let y = 0; y < imgData.height; y += 3) { // 列循环
+                    let i = y * imgData.width + x; // 第x行第y列的元素
+                    if (imgData.data[i * 4 + 3] > 128) { // 透明度 < 128 不显示
+                        let dot = new Dot(x, y, 1); // 实例化对象
+                        dotList.push(dot);
+                    }
+                }
+            }
+            draw();
+        }
+        // 绘画
+        function draw() {
+            let finishCount = 0;
+            ctx.clearRect(0, 0, winWidth, winHeight); // 清除历史轨迹
+
+            for (let i = 0; i < dotList.length; i++) {
+                // 当前粒子
+                let curDot = dotList[i];
+                // 让每个粒子都在不同的时间执行
+                if (curDot.delayCount < curDot.delay) {
+                    curDot.delayCount++;
+                    continue; // 跳过当前循环，进入下一次循环
+                }
+                ctx.beginPath();
+                if (curDot.frameNum < curDot.frameCount) { // 动画中的每一帧
+                    let curX = easeInOutCubic(curDot.frameNum, curDot.sx, curDot.x - curDot.sx, curDot.frameCount); // 绘制运动轨迹
+                    let curY = easeInOutCubic(curDot.frameNum, curDot.sy, curDot.y - curDot.sy, curDot.frameCount); // 绘制运动轨迹
+
+                    ctx.arc(curX, curY, curDot.radius, 0, 2 * Math.PI); // 绘制⚪
+                    curDot.frameNum++; // 下一帧
+                } else { // 最后一帧
+                    ctx.arc(curDot.x, curDot.y, curDot.radius, 0, 2 * Math.PI);
+                    finishCount++;
+                }
+                ctx.fill();
+                // 最后一帧结束动画
+                if (finishCount >= dotList.length) {
+                    cancelAnimationFrame(rafId);
+                    return;
+                }
+            }
+            // 循环动画
+            rafId = requestAnimationFrame(draw); // 返回值是个数值，且唯一
+        }
+        // 粒子构造函数
+        class Dot {
+            constructor(centerX, centerY, radius) {
+                this.x = centerX; // 点 x 坐标
+                this.y = centerY; // 点 y 坐标 
+                this.radius = radius; // ⚪大小
+                this.frameNum = 0; // fps:动画的每一帧
+                this.frameCount = Math.ceil(2000 / 16.66); // 帧率  1s 60帧，1帧为16.66ms，3s会有 多少帧  3000 / 16.66 约等于 180 帧
+                this.sx = Math.random() * winWidth; // 喷射初始点
+                this.sy = Math.random() * winHeight; // 喷射初始点
+                this.delay = this.frameCount * Math.random(); // 延迟执行的随机数，让粒子随机动态生成
+                this.delayCount = 0; // 延迟计数,粒子等待多少帧执行
+            }
+        }
+        // 网上摘录的缓动函数 t 当前时间   b 初始值   c 总位移   d 总时间
+        function easeInOutCubic(t, b, c, d) {
+            if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+            return c / 2 * ((t -= 2) * t * t + 2) + b;
+        }
+
+        init()
+
+        btn.onclick = function () {
+            dotList = [];
+            init()
+        }
+    </script>
+</body>
+
+</html>

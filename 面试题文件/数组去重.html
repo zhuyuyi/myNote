@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [2, 2, 2, 0, 5, 2, 6, 7, 2];
+        let arr1 = [3, 3, 3, 0, 5, 2, 6, 7, 2];
+
+        // 方法一 indexOf 原数组
+        function first(arr) {
+            let newArr = [];
+            arr.forEach((item, index) => {
+                let indx = arr.indexOf(item);
+                if (indx === index) {
+                    newArr.push(item)
+                }
+            });
+            return newArr;
+        }
+        let newArr1 = first(arr);
+        console.log(newArr1, '方法一');
+
+        // 方法二 indexOf 与新数组进行判断
+        function second(arr) {
+            let newArr = [];
+            arr.forEach((item, index) => {
+                let indx = newArr.indexOf(item);
+                if (indx === -1) {
+                    newArr.push(item)
+                }
+            });
+            return newArr;
+        }
+        let newArr2 = second(arr);
+        console.log(newArr2, '方法二');
+
+        // 方法三 排序去重法
+        function third(arr) {
+            let temArr = JSON.parse(JSON.stringify(arr));
+            temArr = temArr.sort();
+            let newArr = [];
+            for (let i = 0; i < temArr.length; i++) {
+                if (temArr[i] !== temArr[i + 1]) {
+                    newArr.push(temArr[i])
+                }
+            }
+            return newArr;
+        }
+        let newArr3 = third(arr);
+        console.log(newArr3, '方法三');
+
+        // 方法四 es6 set 去重
+        function fourth(arr) {
+            let temArr = JSON.parse(JSON.stringify(arr));
+            let newArr = new Set(temArr);
+            newArr = [...newArr]
+            return newArr;
+        }
+        let newArr4 = fourth(arr1);
+        console.log(newArr4, '方法四');
+
+        // 方法五 对象去重法
+        function fifth(arr) {
+            let newArr = [];
+            let obj = {};
+            arr.forEach((item, index) => {
+                if (!obj[item]) {
+                    obj[item] = 'zyy';
+                    newArr.push(item);
+                }
+            });
+            return newArr;
+        }
+        let newArr5 = fifth(arr1);
+        console.log(newArr5, '方法五');
+    </script>
+</body>
+
+</html>

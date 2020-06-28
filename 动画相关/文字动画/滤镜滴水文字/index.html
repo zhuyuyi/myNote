@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>滤镜滴水文字</title>
+    <style>
+        .body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            filter: blur(3px) contrast(10);
+        }
+
+        .text {
+            position: relative;
+            width: 1076px;
+            height: 118px;
+            color: #333;
+            font-size: 124px;
+            text-align: center;
+            margin: 100px auto;
+            border-bottom: 10px solid #333;
+            transform: skewY(5deg);
+        }
+
+        .text::before {
+            position: absolute;
+            content: "";
+            left: 10px;
+            bottom: -20px;
+            width: 10px;
+            height: 20px;
+            border-radius: 50%;
+            background: #333;
+            transform: translate(0, 0);
+            animation: move 12.5s ease-in-out infinite;
+        }
+
+        .text::after {
+            position: absolute;
+            content: "";
+            left: 8px;
+            bottom: -20px;
+            width: 10px;
+            height: 20px;
+            border-radius: 50%;
+            background: #333;
+            transform: translate(0, 0);
+            animation: move 12.5s ease-in-out 1s infinite;
+        }
+
+        @-webkit-keyframes move {
+            80% {
+                bottom: -30px;
+                transform: translate(1050px, 0);
+            }
+
+            93% {
+                transform: translate(1050px, 3px);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(1050px, 150px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes move {
+            80% {
+                bottom: -30px;
+                transform: translate(1050px, 0);
+            }
+
+            93% {
+                transform: translate(1050px, 3px);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(1050px, 150px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div>
+            <div class="body">
+                <div class="text">
+                    404 NOT FOUND
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

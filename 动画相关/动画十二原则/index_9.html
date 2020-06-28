@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+/******* NINE (Timing) *******/
+
+.nine .shape.a {
+  animation: nine 4s infinite cubic-bezier(.93,0,.67,1.21);
+  left: calc(50% - 12em);
+  transform-origin: 100% 6em;
+}
+.nine .shape.b {
+  animation: nine 2s infinite cubic-bezier(1,-0.97,.23,1.84);
+  left: calc(50% + 2em);
+  transform-origin: 100% 100%;
+}
+
+@keyframes nine {
+  0%, 10% {
+    transform: translateX(0);
+  }
+  40%, 60% {
+    transform: rotateZ(90deg);
+  }
+  90%, 100% {
+    transform: translateX(0);
+  }
+}
+
+/* General styling */
+body {
+  margin: 0;
+  background: #e9b59f;
+  font-family: HelveticaNeue, Arial, Sans-serif;
+  color: #fff;
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: 300;
+}
+
+h2 {
+  font-size: 0.75em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+.principle {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.shape {
+  background: #2d97db;
+  border: 1em solid #fff;
+  width: 4em;
+  height: 4em;
+  position: absolute;
+  top: calc(50% - 2em);
+  left: calc(50% - 2em);
+}
+	</style>
+</head>
+<body>
+	<h1>时间节奏 (Timing)</h1>
+	<article class="principle nine">
+    	<div class="shape a"></div>
+    	<div class="shape b"></div>
+  	</article>	
+</body>
+</html>

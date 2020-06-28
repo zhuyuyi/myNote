@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>夜空</title>
+    <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script src="./moon.js"></script>
+    <script src="./star.js"></script>
+    <script src="./meteor.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let count = 0; // fps
+        let meteors = []; // 流星数组
+
+        let moon = new Moon(ctx, canvas.width, canvas.height);
+        let stars = new Star(ctx, canvas.width, canvas.height, 100);
+
+        //流星生成函数
+        function meteorGenerator() {
+            //x位置偏移，以免经过月亮
+            let x = Math.random() * canvas.width + 800
+            meteors.push(new Meteor(ctx, x, canvas.height));
+        }
+
+        function drawCanvas() {
+            count++;
+            moon.draw();
+            if (count % 10 === 0) {
+                stars.flash();
+            }
+            stars.draw();
+            meteors.forEach((meteor, index, arr) => {
+                if (meteor.flow()) {
+                    meteor.draw()
+                } else {
+                    arr.splice(index, 1)
+                }
+            })
+            if (count % 200 === 0) {
+                meteorGenerator()
+            }
+            requestAnimationFrame(drawCanvas)
+        }
+
+        meteorGenerator();
+        drawCanvas();
+
+    </script>
+
+</body>
+
+</html>

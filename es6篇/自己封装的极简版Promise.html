@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Zhuromise {
+            constructor(fn) {
+                // fn 为 new 构造函数时传递的函数
+                // then 中回调函数的使用，为了链式调用设置成数组
+                this.callback = [];
+                // resolve 控制标识符 resolve 只能调用一次
+                this.isResolved = false;
+
+                // 执行 把 resolve 函数作为参数传递
+                fn(this.resolve);
+            }
+
+            // 处理成功的情况
+            resolve = (val) => {
+                // val 为 用户定义的 参数
+                // 标识符控制 resolve 只调用一次
+                if (this.isResolved) {
+                    return;
+                }
+                // 标识符重新赋值
+                this.isResolved = true;
+                // console.log(this.callback, 'this.callback')
+                // callback 中的 cb 会在 then 中直接调用
+                if (this.callback.length > 0) {
+                    this.callback.forEach((item) => {
+                        let res;
+                        let cb = item.cb;
+                        let resolve = item.resolve;
+                        // console.log(cb)
+                        // res 为 cb 函数执行后返回值
+                        cb && (res = cb(val));
+                        // 递归调用自身
+                        if (typeof res === 'object' && res.then) {
+                            res.then(resolve);
+                        } else {
+                            resolve && resolve(res);
+                        }
+                    });
+                }
+            }
+
+            then(cb) {
+                // cb 为用户 传递的参数
+                let _this = this;
+                return new Zhuromise((resolve) => {
+                    _this.callback.push({
+                        cb: cb,
+                        resolve
+                    });
+                })
+            }
+        }
+
+
+        var p = new Zhuromise((resolve) => {
+            console.log(1);
+            setTimeout(function () {
+                resolve(2);
+            }, 2000);
+        });
+
+        p
+            .then(function (val) {
+                console.log(val);
+                debugger
+                return new Zhuromise((resolve) => {
+                    setTimeout(function () {
+                        resolve(val + 1);
+                    }, 1000);
+                })
+            })
+            .then(function (val) {
+                setTimeout(function () {
+                    console.log(val);
+                }, 1000);
+            })
+    </script>
+</body>
+
+</html>

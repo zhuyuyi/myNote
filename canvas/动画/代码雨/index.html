@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代码雨</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0
+        }
+
+        html {
+            overflow: hidden
+        }
+
+        #canvas {
+            background-color: #111;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+
+        const fontSize = 16; // 字体大小，同时作用于行列
+        const words = 'javascript html5 canvas'; // 要渲染的 word
+
+        const columns = Math.floor(canvas.width / fontSize); // 通过字体大小 计算出排列几列
+        const dropDots = []; // 一个一个文字的实例
+        for (let i = 0; i < columns; i++) {
+            dropDots.push(0);
+        }
+        // 字符构造函数
+        class Word {
+            constructor(x, y, index) {
+                this.x = x;
+                this.y = y;
+                this.index = index;
+            }
+            draw() {
+                ctx.fillText(words[this.index], this.x, this.y);
+            }
+        }
+        // 动画
+        function createAnimate() {
+            ctx.fillStyle = 'rgba(0,0,0,0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = `700 ${fontSize}px 微软雅黑`;
+            ctx.fillStyle = "#00cc33";
+            for (let i = 0; i < columns; i++) {
+                let index = Math.floor(Math.random() * words.length);
+                let word = new Word(i * fontSize, dropDots[i] * fontSize, index);
+                word.draw();
+                if (dropDots[i] * fontSize >= canvas.height && Math.random() > 0.99) {
+                    dropDots[i] = 0;
+                }
+                dropDots[i]++;
+            }
+            requestAnimationFrame(createAnimate)
+        }
+
+        createAnimate()
+    </script>
+</body>
+
+</html>

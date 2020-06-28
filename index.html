@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 400px;
+            height: 400px;
+            background: #58a;
+            background:
+                linear-gradient(-45deg, transparent 15px, #58a 0) right,
+                linear-gradient(45deg, transparent 15px, #655 0) left;
+            background-size: 50% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+        img {
+            clip-path: polygon(50% 0, 100% 50%,
+                    50% 100%, 0 50%);
+            transition: 1s clip-path;
+        }
+
+        img:hover {
+            clip-path: polygon(0 0, 100% 0,
+                    100% 100%, 0 100%);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <!-- <img src="https://assets.che300.com/feimg/web3.0/login/login_pic_welcome.png"> -->
+    </div>
+
+    <!-- <script src="./index.js"></script> -->
+    <script type="module">
+
+        // let markdownText = '==ddfsdfsdfsfsdf==';
+        // let reg = /==([\w\W]+)==/g;
+        // console.dir(RegExp)
+        // let text = markdownText.replace(reg, '<mark>$1</mark>');
+        // console.log(text)
+
+        // let a1 = {a:1,b:2};
+        // let b1 = {a:1,b:2};
+
+        // let arr1 = [a1,b1];
+        // let set1 = new Set(arr1);
+        // console.log(set1,'set1');
+
+        // let a2 = {a:1,b:2};
+        // let b2 = a2;
+
+        // let arr2 = [a2,b2];
+        // let set2 = new Set(arr2);
+        // console.log(set2,'set2');
+        import {a,b} from './ceshi.js'
+        console.log(a,b)
+    </script>
+</body>
+
+</html>

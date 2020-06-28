@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>贪吃蛇</title>
+    <style>
+        .map {
+            width: 800px;
+            height: 600px;
+            background-color: #eee;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="map"></div>
+    <script>
+        // 获取页面 DOM
+        let map = document.querySelector('.map');
+        // 存放所有的食物小方块的数组
+        let elements = [];
+        // 小蛇身体
+        let snakeElements = [];
+        // 产生随机数
+        class Random {
+            constructor(window) {};
+            getRandom(min, max) {
+                return Math.floor(Math.random() * (max - min) + min);
+            };
+        }
+        // 实例化随机数
+        let myRandom = new Random();
+        // 产生小方块对象
+        class Food {
+            // 食物小方块构造函数
+            constructor(width, height, color) {
+                this.width = width || 20;
+                this.height = height || 20;
+                this.x = 0;
+                this.y = 0;
+                this.color = color || 'green';
+                this.ele = document.createElement('div');
+            };
+            // 初始化食物小方块
+            init() {
+                // 初始化时先删除这个小方块
+                remove();
+                let div = this.ele; // 创建一个小方块
+                div.style.position = 'absolute';
+                div.style.width = this.width + 'px';
+                div.style.height = this.height + 'px';
+                div.style.backgroundColor = this.color;
+                map.appendChild(div); // 这里的map为外部 Dom
+                elements.push(div);
+                this.render(map);
+            };
+            render(map) {
+                // map 是 DOM 形参
+                // 随机产生小方块坐标
+                let x = myRandom.getRandom(0, map.offsetWidth / this.width) * this.width;
+                let y = myRandom.getRandom(0, map.offsetHeight / this.height) * this.height;
+                this.x = x;
+                this.y = y;
+                let div = this.ele;
+                div.style.left = this.x + 'px';
+                div.style.top = this.y + 'px';
+            };
+        }
+        // 删除食物小方块
+        function remove() {
+            for (let i = 0; i < elements.length; i++) {
+                let ele = elements[i];
+                // 删除这个子元素
+                ele.parentNode.removeChild(ele);
+                // 把elements中的子元素也要删除
+                elements.splice(i, 1);
+            }
+        }
+        class Snake {
+            constructor(width, height, direction) {
+                // 小蛇的每个部分的宽
+                this.width = width || 20;
+                this.height = height || 20;
+                // 小蛇的身体
+                this.body = [{
+                    x: 3,
+                    y: 2,
+                    color: 'red'
+                }, {
+                    x: 2,
+                    y: 2,
+                    color: 'orange'
+                }, {
+                    x: 1,
+                    y: 2,
+                    color: 'orange'
+                }];
+                this.direction = direction || 'right';
+            };
+            // 初始化小蛇
+            init(map) {
+                // 先删除的小蛇
+                removSnake();
+                for (let i = 0; i < this.body.length; i++) {
+                    // 创建div
+                    let div = document.createElement('div');
+                    let eleObj = this.body[i];
+                    // 把div放入页面中
+                    div.style.position = 'absolute';
+                    div.style.width = this.width + 'px';
+                    div.style.height = this.height + 'px';
+                    div.style.left = eleObj.x * this.width + 'px';
+                    div.style.top = eleObj.y * this.height + 'px';
+                    div.style.backgroundColor = eleObj.color;
+                    map.appendChild(div);
+                    // 把div放入数组中
+                    snakeElements.push(div);
+                }
+            };
+            // 小蛇移动
+            move(food, map) {
+                for (let i = this.body.length - 1; i > 0; i--) {
+                    this.body[i].x = this.body[i - 1].x;
+                    this.body[i].y = this.body[i - 1].y;
+                }
+                // 判断方向
+                switch (this.direction) {
+                    case 'right':
+                        this.body[0].x += 1;
+                        break;
+                    case 'left':
+                        this.body[0].x -= 1;
+                        break;
+                    case 'top':
+                        this.body[0].y -= 1;
+                        break;
+                    case 'bottom':
+                        this.body[0].y += 1;
+                        break;
+                }
+                // 判断小蛇投的坐标室友与食物的坐标一致
+                let headX = this.body[0].x * this.width;
+                let headY = this.body[0].y * this.height;
+                if (headX === food.x && headY === food.y) {
+                    // 获取小蛇最后的尾巴
+                    let last = this.body[this.body.length - 1];
+                    // 把最后的蛇尾赋值一个，重新的加入到小蛇的body中
+                    this.body.push({
+                        x: last.x,
+                        y: last.y,
+                        color: last.color
+                    });
+                    // 把食物删除，重新初始化食物
+                    myRandom = new Random();
+                    food.init(map);
+                }
+            }
+        }
+        // 删除的小蛇
+        function removSnake() {
+            // 获取小蛇数组
+            for (let i = snakeElements.length - 1; i >= 0; i--) {
+                let ele = snakeElements[i];
+                ele.parentNode.removeChild(ele);
+                snakeElements.splice(i, 1);
+            }
+        }
+        let speed = 150;
+        // 游戏类
+        class Game {
+            constructor(map) {
+                // 实例化食物小方块
+                this.food = new Food();
+                // 实例化小蛇
+                this.snake = new Snake();
+                this.map = map;
+            };
+            // 初始化游戏
+            init() {
+                this.food.init(this.map);
+                this.snake.init(this.map);
+                // 调用自动移动小蛇的方法
+                this.runSnake(this.food, this.map);
+                // 调用按键方法
+                this.bindKey();
+            };
+            // 移动小蛇
+            runSnake(food, map, snake) {
+                // 自动的去移动
+
+                console.log(this.snake.body.length)
+                let timeID = setInterval(() => {
+                    this.snake.move(food, map);
+                    this.snake.init(map);
+                    let maxX = map.offsetWidth / this.snake.width; // 最大宽度
+                    let maxY = map.offsetHeight / this.snake.height; // 最大高度
+                    let headX = this.snake.body[0].x;
+                    let headY = this.snake.body[0].y;
+                    // 判断撞墙
+                    if (headX < 0 || headX >= maxX) {
+                        // 撞墙了，停止定时器
+                        clearInterval(timeID);
+                        alert('游戏结束');
+                    }
+                    if (headY < 0 || headY >= maxY) {
+                        // 撞墙了，停止定时器
+                        clearInterval(timeID);
+                        alert('游戏结束');
+                    }
+                }, 150);
+
+            };
+            // 绑定key
+            bindKey() {
+                document.addEventListener('keydown', (e) => {
+                    switch (e.keyCode) {
+                        case 37:
+                            this.snake.direction = 'left';
+                            break;
+                        case 39:
+                            this.snake.direction = 'right';
+                            break;
+                        case 38:
+                            this.snake.direction = 'top';
+                            break;
+                        case 40:
+                            this.snake.direction = 'bottom';
+                            break;
+                    }
+                }, false);
+            }
+        }
+        // 初始化游戏对象
+        let game = new Game(map);
+        // 初始化游戏
+        game.init();
+    </script>
+</body>
+
+</html>
