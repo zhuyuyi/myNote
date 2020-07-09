@@ -32,11 +32,36 @@
         //     result.innerHTML = `<a download href=${url} target='_blank'>Blob对象下载</a>`
         // }
 
-        function a(){
-            console.log(111111)
-            console.log(arguments)
+        // new Promise(function(resolve){
+        //     console.log(2)
+        //     resolve('44444444')
+        //     console.log(3)
+        //     new Promise(function(resolve2){
+        //         console.log(222)
+        //         resolve2('222222')
+        //         console.log(33)
+        //     }).then(function(e){
+        //         console.log(e)
+        //     });
+
+            
+        // }).then(function(eee){
+        //     console.log(eee)
+        // });
+
+        async function a(){
+            let c = await b();
+            console.log(11111111)
         }
-        a();
+
+        function b() { 
+            return new Promise((resolve)=>{
+                console.log(222222222)
+                resolve(111)
+            })
+        }
+
+        a()
     </script>
 </body>
 
