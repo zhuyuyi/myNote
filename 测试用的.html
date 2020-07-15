@@ -12,10 +12,21 @@
 
 <body>
     <div class="rate-content">
-
+        <div id="aaa123">11111111111</div>
     </div>
 
     <script>
+
+        function a(param) {
+            var timer = 111;
+            console.log(11111111111)
+            return function () {
+                param();
+            }   
+        }
+        window.addEventListener('click',a(()=>{
+            console.log('我点击的时候执行')
+        }))
         // let cat = {
         // 	name:'cat',
         // 	jump(){
@@ -342,11 +353,11 @@
         // person2.age = 24;
         // console.log(person)
 
-        let regex = /(<iframe [\w\W]*><\/iframe>)/g
+        // let regex = /(<iframe [\w\W]*><\/iframe>)/g
 
-        let str = '<p><iframe allowfullscreen="true" frameborder="0" src="https://v.qq.com/txp/iframe/player.html?vid=x30753u0k7z" width="100%"></iframe><a>涉及到了发斯蒂芬</a></p>';
-        let a = str.replace(regex, '');
-        console.log(a)
+        // let str = '<p><iframe allowfullscreen="true" frameborder="0" src="https://v.qq.com/txp/iframe/player.html?vid=x30753u0k7z" width="100%"></iframe><a>涉及到了发斯蒂芬</a></p>';
+        // let a = str.replace(regex, '');
+        // console.log(a)
     </script>
 </body>
 
