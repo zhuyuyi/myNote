@@ -37,10 +37,11 @@
     <div>
         <!-- <img src="https://assets.che300.com/feimg/web3.0/login/login_pic_welcome.png"> -->
     </div>
+    
 
     <!-- <script src="./index.js"></script> -->
-    <script type="module">
-
+    <!-- <script type="module">
+        
         // let markdownText = '==ddfsdfsdfsfsdf==';
         // let reg = /==([\w\W]+)==/g;
         // console.dir(RegExp)
@@ -62,6 +63,12 @@
         // console.log(set2,'set2');
         import {a,b} from './ceshi.js'
         console.log(a,b)
+    </script> -->
+    <script>
+        let reg = /^([1-9]{1,1}\d{0,2}|0)(\.\d{1,2})?$/g;
+        let a = '999.99';
+        console.log(reg.test(a))
+        console.log(RegExp.$2)
     </script>
 </body>
 
