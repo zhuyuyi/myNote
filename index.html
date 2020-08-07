@@ -65,10 +65,24 @@
         console.log(a,b)
     </script> -->
     <script>
-        let reg = /^([1-9]{1,1}\d{0,2}|0)(\.\d{1,2})?$/g;
-        let a = '999.99';
-        console.log(reg.test(a))
-        console.log(RegExp.$2)
+        // let reg = /^([1-9]{1,1}\d{0,2}|0)(\.\d{1,2})?$/g;
+        // let a = '999.99';
+        // console.log(reg.test(a))
+        // console.log(RegExp.$2)
+        try{
+            for(let i = 0 ; i < 10 ; i++){
+                for(let j = 0 ; j < 10 ; j++){
+                    if(j === 6){
+                        throw('我射了')
+                    }
+                }
+                console.log(i)
+            }
+        } 
+        catch(e){
+            console.log(e)
+        }
+        
     </script>
 </body>
 
