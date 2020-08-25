@@ -69,20 +69,27 @@
         // let a = '999.99';
         // console.log(reg.test(a))
         // console.log(RegExp.$2)
-        try{
-            for(let i = 0 ; i < 10 ; i++){
-                for(let j = 0 ; j < 10 ; j++){
-                    if(j === 6){
-                        throw('我射了')
-                    }
-                }
-                console.log(i)
-            }
-        } 
-        catch(e){
-            console.log(e)
-        }
+        // try{
+        //     for(let i = 0 ; i < 10 ; i++){
+        //         for(let j = 0 ; j < 10 ; j++){
+        //             if(j === 6){
+        //                 throw('我射了')
+        //             }
+        //         }
+        //         console.log(i)
+        //     }
+        // } 
+        // catch(e){
+        //     console.log(e)
+        // }
         
+        let str = 'mozilla/5.0 (iphone; cpu iphone os 10_3_1 like mac os x) applewebkit/603.1.30 (khtml, like gecko) version/10.0 mobile/14e304 safari/602.1';
+        // let reg = /\s+\d+\_\d+\_\d+\s+/g;
+        let reg = /((\d+)\_){2,2}\d+/;
+        console.log(str.match(reg));
+        let a = str.match(reg)[0];
+        console.log(a.trim())
+
     </script>
 </body>
 
