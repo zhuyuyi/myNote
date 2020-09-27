@@ -15,9 +15,10 @@
 </head>
 
 <body>
+    <div id="waterMark"></div>
     <script>
 
-        function drawWaterMask(text = '车300伽马风控', deg = 30, fontSize = 24, _config, callback) {
+        function drawWaterMark(text = '车300伽马风控', deg = 30, fontSize = 24, _config, dom, callback) {
             const config = {
                 fontWeight: _config.fontWeight || 'bold', // 加粗
                 fontFamily: _config.fontFamily || '黑体', // 字体
@@ -30,7 +31,12 @@
                 showDouble: _config.showDouble || false // 是否增加水印密度
             }
 
-            const body = document.querySelector('body');
+            let body;
+            if(dom){
+                body = document.querySelector(dom);
+            } else {
+                body = document.querySelector('body');
+            }
 
             const waterMarkDiv = document.createElement('div'); // 渲染水印的 div
             waterMarkDiv.style.width = `${window.innerWidth}px`;
@@ -77,7 +83,7 @@
             zIndex: 999
         }
 
-        drawWaterMask('车300伽马风控', 40, '24', config)
+        drawWaterMark('车300伽马风控', 40, '24', config, '#waterMark')
     </script>
 </body>
 
