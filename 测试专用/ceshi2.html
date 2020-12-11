@@ -14,7 +14,8 @@
             text-align: justify;
             text-align-last: justify;
         }
-        span{
+
+        span {
             display: inline-block;
             width: 100%;
         }
@@ -22,6 +23,7 @@
 </head>
 
 <body>
+    '321321321' <span class='h-l'><span></span></span></span>
     <div>姓名<span></span></div>
     <div>手机号码</div>
     <div>账号</div>
@@ -84,8 +86,11 @@
         // let age = 24
     </script>
     <script>
-        console.log(age)
-        age = 26
+
+        let reg = /\<span class=\'myClassName\'\>[^<]+\<\/span\>/g
+
+        let a = "王亚晖 -> 汪亚平 -> 左佳鑫 -> 滕梦晓 --> <span class='myClassName'>1111</span><span class='myClassName'>艺</span> --> 杨光宇 -> 朱育仪 -> 钱以洋 -> 焦伟奇 -> 赵远 -> 张真欣 -> 朱兴敏 -> 葛文杰 -> 费聪 -> 王亚晖<span class='myClassName'>宝</span>"
+        console.log(a.match(reg));
     </script>
 </body>
 
