@@ -1,19 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<body>
-    
-    <script>
+    <style>
+        body {
+            margin: 0;
+        }
 
-        function Foo() {  
-            
+        .box {
+            padding: 50px 0;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h2 id="h2_1">change</h2>
+        <h2 id="h2_2">submit</h2>
+    </div>
+    <script>
+        class Person {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+        }
+
+        Person.prototype.ceshi = '111111'
+
+        class YB extends Person {
+            constructor(name, age, speak) {
+                super(name, age);
+                this.speak = speak;
+            }
+        }
+
+        let yb = new YB('艺宝', 23, '我叫艺宝');
+        
+
+        console.log('ceshi' in yb)
+        console.log(yb)
+        console.log(yb.ceshi)
+
+        for(let key in yb){
+            console.log(key)
         }
     </script>
 </body>
+
 </html>
-
-
