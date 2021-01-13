@@ -11,38 +11,13 @@
 </head>
 
 <body>
-  <h1 id="h1">Compiling LaTeX</h1>
-  <h1 id="h1_1">h1_2</h1>
+  <iframe src="http://www.baidu.com" width="1200" height="800" sandbox="allow-forms"></iframe>
+  
   <script>
-    let h1 = document.getElementById('h1');
-    h1.onclick = () => {
-      // const url = 'http://127.0.0.1:5501/图片相关/git常用命令速查表.jpg';          // 图片地址
-      const url = 'https://fe.che300.com/easymock/upload/2020/03/25/136a482343ed2b09b8cb0b603501e51e.png'
-      // const a = document.createElement('a');          // 创建一个a节点插入的document
-      // const event = new MouseEvent('click')           // 模拟鼠标click点击事件
-      // a.download = '图片名字'                        // 设置a节点的download属性值
-      // a.target = '_blank'                           // 打开新窗口下载图片
-      // a.href = url;                                 // 将图片的src赋值给a节点的href
-      // a.dispatchEvent(event)
-      downloadIamge(url,'111.jpg')
-    }
-
-    let h1_1 = document.getElementById('h1_1');
-
-
-    function downloadIamge(imgsrc, name) {
-      const x = new XMLHttpRequest()
-      x.open('GET', imgsrc, true)
-      x.responseType = 'blob'
-      x.onload = function (e) {
-        var url = window.URL.createObjectURL(x.response)
-        var a = document.createElement('a')
-        a.href = url
-        a.download = name
-        a.click()
-      }
-      x.send()
-    }
+    let body = document.querySelector('body');
+    let div = document.createElement('div');
+    div.innerHTML = '<div>1221212121</div>';
+    body.append('11111111')
   </script>
 </body>
 
