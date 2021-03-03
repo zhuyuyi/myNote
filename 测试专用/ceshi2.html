@@ -1,97 +1,279 @@
-<!DOCTYPE html>
-<html lang="en">
+{extends file="../main.html"} {block name="title"}活动管理{/block} {block name="cssjs"}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文件操作</title>
-    <style>
-        div {
-            margin: 10px 0;
-            width: 100px;
-            border: 1px solid red;
-            text-align: justify;
-            text-align-last: justify;
-        }
+<link rel="stylesheet" href="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/css/new_rbac_2b_customer/edit.css?v={$smarty.const.CSSJS_VERSION}" type="text/css" >
+<!-- element-ui 样式表 -->
+<link rel="stylesheet" href="https://fezz.che300.com/libs/elementui/2.12.0/index.css">
+<!-- vueJs 2.5.16版本 -->
+<script src="https://fezz.che300.com/libs/vue/2.5.16/vue.min.js"></script>
+<!-- element-ui 2.3.6版本 -->
+<script src="https://fezz.che300.com/libs/elementui/2.12.0/index.js"></script>
+<script src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/js/utils/dom.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/js/utils/url.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/js/utils/date.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/components/cpCitySelector.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script>
+    window.baseApi = window.location.host;
+</script>
 
-        span {
-            display: inline-block;
-            width: 100%;
-        }
-    </style>
-</head>
+{/block} {block name="body"}
+<aside class="right-side" id="app">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            添加客户
+            <small>Rbac 2b customer</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-folder"></i> 客户管理</a></li>
+            <li class="active">添加客户</li>
+        </ol>
+    </section>
+    <section class="content">
+        <el-row>
+            <el-col :span="6" ><font style="color:red">*</font>客户名称</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-select
+                        id="InputName" 
+                        class="validate[required]"
+                        v-model="crm_customer_id"
+                        filterable
+                        remote
+                        reserve-keyword
+                        :placeholder="customer_placeholder"
+                        @change="(v)=>{ crmChange(v)}"
+                        :remote-method="querySearchAsync"
+                        style="width: 100%;"
+                        >
+                        <el-option
+                          v-for="item in crm_customers"
+                          :key="item.crm_customer_id"
+                          :label="item.name"
+                          :value="item.crm_customer_id">
+                        </el-option>
+                    </el-select>
+                </div>
+            </el-col>  
+        </el-row>
+        <el-row>
+            <el-col :span="6" >客户备注</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input type="text" class="validate[required]" placeholder="客户备注" v-model="customer_desc"></el-input>
+                </div>
+            </el-col>  
+        </el-row>
+        <el-row>
+            <el-col :span="6"><font style="color:red">*</font>密钥</el-col>
 
-<body>
-    '321321321' <span class='h-l'><span></span></span></span>
-    <div>姓名<span></span></div>
-    <div>手机号码</div>
-    <div>账号</div>
-    <div>密码手机号码手机号码</div>
-    <script>
-        // var a = 10;
-        // (function () {
-        //     console.log(a)
-        // })()
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input type="text" class="validate[required,minSize[16],maxSize[16]]" name="secret" placeholder="使用密码生成器随机生成16位字符，用于接口通信"  v-model="secret"></el-input>
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-flat" type="button" @click="getGenerateSecret">自动生成</button>
+                    </span>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">关联token</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input type="text" name="token" id="InputToken" placeholder="关联token" v-model="token"></el-input>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">回调失败通知客户邮箱</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <textarea v-model="notifyMail" cols="100" rows="5" placeholder="多个邮箱使用英文分号隔开"></textarea>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否开启IP白名单</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-radio v-model="ipWhiteList" label="0">否</el-radio>
+                    <el-radio v-model="ipWhiteList" label="1">是</el-radio>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row v-if="ipWhiteList == 1">
+            <el-col :span="6">添加信任的 IP 地址</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input 
+                    type="text" 
+                    class="validate[required]" 
+                    name="ip_address" 
+                    id="InputIpAddress" 
+                    placeholder="多个IP地址，以英文分号隔开" 
+                    v-model="ipAddress">
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否禁用回调通知</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-radio v-model="callbackNotice" label="0">否</el-radio>
+                    <el-radio v-model="callbackNotice" label="1">是</el-radio>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否开启客户套餐即将过期邮件通知客户</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <textarea v-model="mailToCustomer" cols="100" rows="5" placeholder="多个邮箱使用英文分号隔开"></textarea>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number" name="amount-demand" style="padding:0;" placeholder="" v-model="amountThreshold" ></el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        剩余多少量时提醒
+                    </el-col>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number"  style="padding:0;" placeholder="" v-model="notice_customer_price_threshold" ></el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        账户余额小于多少元时提醒
+                    </el-col>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否开启客户套餐即将过期邮件通知销售人员</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-radio v-model="emailNotice" label="0">否</el-radio>
+                    <el-radio v-model="emailNotice" label="1">是</el-radio>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number" name="amount-demand" style="padding:0;" placeholder="" v-model="amountDemand" ></el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        剩余多少量时提醒
+                    </el-col>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number"  style="padding:0;" placeholder="" v-model="notice_price_threshold" ></el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        账户余额小于多少元时提醒
+                    </el-col>
+                </div>
+            </el-col>
+        </el-row>
 
-        // let btn = document.getElementById('btn');
-        // btn.onclick = function () {
-        //     let files = document.getElementById('file').files;
-        //     let reader = new FileReader();
-        //     reader.readAsDataURL(files[0])
-        //     console.log(reader.readAsDataURL(files[0]))
-        // }
+        <el-row>
+            <el-col :span="6">
+                定制化配置标识
+            </el-col>
+            <el-col :span="18">
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input v-model.trim="customized_flag" maxlength="20" placeholder="请输入"></el-input>
+                    </el-col>
+                </div>
+            </el-col>
+        </el-row>
 
-        // let btn2 = document.getElementById("btn2");
-        // btn2.onclick = function () {
-        //     let textarea = document.getElementById('textarea').value;
-        //     let result = document.getElementById('result');
-        //     let blob = new Blob([textarea]);
-        //     let url = window.URL.createObjectURL(blob);
-        //     result.innerHTML = `<a download href=${url} target='_blank'>Blob对象下载</a>`
-        // }
+        <el-row>
+            <el-col :span="6"><font style="color:red">*</font>组织类型</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-select v-model="org_type_id" placeholder="请选择">
+                        <el-option
+                          v-for="item in selectList"
+                          :key="item.id"
+                          :label="item.name"
+                          :value="item.id">
+                        </el-option>
+                      </el-select>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6"><font style="color:red">*</font>业务类型</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                <el-select v-model="business_type_ids" multiple placeholder="请选择">
+                    <el-option
+                      v-for="item in moreSelectList"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    </el-option>
+                </el-select>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6"><font style="color:red">*</font>客户所属销售人员</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-tree
+                        :data="data"
+                        show-checkbox
+                        node-key="id"
+                        ref="treeForm"
+                        check-strictly
+                        @check-change="handleClick" 
+                        :props="defaultProps"
+                        check-on-click-node
+                        :expand-on-click-node="false"
+                        >
+                    </el-tree>
+                </div>
+            </el-col>
+        </el-row>
+    </section>
+    <el-row class="foot-btn">
+        <el-col :span="5" class="empty">
+        </el-col>
+        <el-col :span="3">
+            <el-popover
+                placement="top-start"
+                title="错误"
+                width="200"
+                trigger="manual"
+                :content="popoverContent"
+                v-model="popoverbackVisible">
+            <el-button slot="reference" class="search-btn" type="primary" @click="addPerson('back')">保存并退出</el-button>
+        </el-popover>
+        </el-col>
+        <el-col :span="2" class="empty">
+        </el-col>
+        <el-col :span="3">
+            <el-popover
+                placement="top-start"
+                title="错误"
+                width="200"
+                trigger="manual"
+                :content="popoverContent"
+                v-model="popoverVisible">
+                <el-button slot="reference" class="search-btn" type="primary" @click="addPerson">保存并下一步编辑套餐</el-button>
+            </el-popover>
+        </el-col>
+        <el-col :span="2" class="empty">
+        </el-col>
+        <el-col :span="3">
+            <el-button class="search-btn" @click="back">返回</el-button>
+        </el-col>
+        <el-col :span="6" class="empty">
+        </el-col>
+    </el-row>
+    <!-- Main content -->
+</aside>
+<script src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/js/new_rbac_2b_customer/add.js?v={$smarty.const.CSSJS_VERSION}"></script>
 
-        // new Promise(function(resolve){
-        //     console.log(2)
-        //     resolve('44444444')
-        //     console.log(3)
-        //     new Promise(function(resolve2){
-        //         console.log(222)
-        //         resolve2('222222')
-        //         console.log(33)
-        //     }).then(function(e){
-        //         console.log(e)
-        //     });
-
-
-        // }).then(function(eee){
-        //     console.log(eee)
-        // });
-
-        // async function a(){
-        //     let c = await b();
-        //     console.log(11111111)
-        // }
-
-        // function b() { 
-        //     return new Promise((resolve)=>{
-        //         console.log(222222222)
-        //         resolve(111)
-        //     })
-        // }
-
-        // a()
-    </script>
-    <script>
-        // let age = 24
-    </script>
-    <script>
-
-        let reg = /\<span class=\'myClassName\'\>[^<]+\<\/span\>/g
-
-        let a = "王亚晖 -> 汪亚平 -> 左佳鑫 -> 滕梦晓 --> <span class='myClassName'>1111</span><span class='myClassName'>艺</span> --> 杨光宇 -> 朱育仪 -> 钱以洋 -> 焦伟奇 -> 赵远 -> 张真欣 -> 朱兴敏 -> 葛文杰 -> 费聪 -> 王亚晖<span class='myClassName'>宝</span>"
-        console.log(a.match(reg));
-    </script>
-</body>
-
-</html>
+{/block}
+    

@@ -1,24 +1,638 @@
-<!DOCTYPE html>
-<html lang="en">
+{extends file="../main.html"} {block name="title"}活动管理{/block} {block name="cssjs"}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta http-equiv="content-language" content="en">
+<link rel="stylesheet"
+    href="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/css/new_rbac_2b_customer/edit.css?v={$smarty.const.CSSJS_VERSION}"
+    type="text/css">
+<!-- element-ui 样式表 -->
+<link rel="stylesheet" href="https://fezz.che300.com/libs/elementui/2.12.0/index.css">
+<!-- vueJs 2.5.16版本 -->
+<script src="https://fezz.che300.com/libs/vue/2.5.16/vue.min.js"></script>
+<!-- element-ui 2.3.6版本 -->
+<script src="https://fezz.che300.com/libs/elementui/2.12.0/index.js"></script>
+<script
+    src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/js/utils/dom.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script
+    src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/js/utils/url.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script
+    src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/js/utils/date.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script
+    src="{$smarty.const.CHE300_FEZZ_DOMAIN}/dream/cp/static/components/cpCitySelector.js?v={$smarty.const.CSSJS_VERSION}"></script>
+<script>
+    window.baseApi = window.location.host;
+</script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{/block} {block name="body"}
+<aside class="right-side" id="app">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            编辑客户
+            <small>Rbac 2b customer</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-folder"></i> 客户管理</a></li>
+            <li class="active">编辑客户</li>
+        </ol>
+    </section>
+    <section class="content">
+        <el-row>
+            <el-col :span="6">
+                <font style="color:red">*</font>客户名称
+            </el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-select id="InputName" class="validate[required]" v-model="crm_customer_id" filterable remote
+                        reserve-keyword placeholder="中文简称" :remote-method="querySearchAsync" style="width: 100%;">
+                        <el-option v-for="item in crm_customers" :key="item.crm_customer_id" :label="item.name"
+                            :value="item.crm_customer_id">
+                        </el-option>
+                    </el-select>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">客户备注</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input type="text" class="validate[required]" placeholder="客户备注" v-model="customer_desc">
+                    </el-input>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <font style="color:red">*</font>密钥
+            </el-col>
 
-</head>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input type="text" class="validate[required,minSize[16],maxSize[16]]" name="secret"
+                        placeholder="使用密码生成器随机生成16位字符，用于接口通信" v-model="secret"></el-input>
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-flat" type="button" @click="getGenerateSecret">自动生成</button>
+                    </span>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">关联token</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input type="text" name="token" id="InputToken" placeholder="关联token" v-model="token"></el-input>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">回调失败通知客户邮箱</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <textarea v-model="notifyMail" cols="100" rows="5" placeholder="多个邮箱使用英文分号隔开"></textarea>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否开启IP白名单</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-radio v-model="ipWhiteList" label="0">否</el-radio>
+                    <el-radio v-model="ipWhiteList" label="1">是</el-radio>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row v-if="ipWhiteList == 1">
+            <el-col :span="6">添加信任的 IP 地址</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-input type="text" class="validate[required]" name="ip_address" id="InputIpAddress"
+                        placeholder="多个IP地址，以英文分号隔开" v-model="ipAddress">
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否禁用回调通知</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-radio v-model="callbackNotice" label="0">否</el-radio>
+                    <el-radio v-model="callbackNotice" label="1">是</el-radio>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否开启客户套餐即将过期邮件通知客户</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <textarea v-model="mailToCustomer" cols="100" rows="5" placeholder="多个邮箱使用英文分号隔开"></textarea>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number" name="amount-demand" style="padding:0;" placeholder=""
+                            v-model="amountThreshold"></el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        剩余多少量时提醒
+                    </el-col>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number" style="padding:0;" placeholder=""
+                            v-model="notice_customer_price_threshold"></el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        账户余额小于多少元时提醒
+                    </el-col>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">是否开启客户套餐即将过期邮件通知销售人员</el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-radio v-model="emailNotice" label="0">否</el-radio>
+                    <el-radio v-model="emailNotice" label="1">是</el-radio>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number" name="amount-demand" style="padding:0;" placeholder=""
+                            v-model="amountDemand"></el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        剩余多少量时提醒
+                    </el-col>
+                </div>
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input type="number" style="padding:0;" placeholder="" v-model="notice_price_threshold">
+                        </el-input>
+                    </el-col>
+                    <el-col :span="18" style="border:none;">
+                        账户余额小于多少元时提醒
+                    </el-col>
+                </div>
+            </el-col>
+        </el-row>
 
-<body>
-  <iframe src="http://www.baidu.com" width="1200" height="800" sandbox="allow-forms"></iframe>
-  
-  <script>
-    let body = document.querySelector('body');
-    let div = document.createElement('div');
-    div.innerHTML = '<div>1221212121</div>';
-    body.append('11111111')
-  </script>
-</body>
+        <el-row>
+            <el-col :span="6">
+                定制化配置标识
+            </el-col>
+            <el-col :span="18">
+                <div class="el-row">
+                    <el-col :span="6">
+                        <el-input v-model.trim="customized_flag" maxlength="20" placeholder="请输入"></el-input>
+                    </el-col>
+                </div>
+            </el-col>
+        </el-row>
 
-</html>
+        <el-row>
+            <el-col :span="6">
+                <font style="color:red">*</font>组织类型
+            </el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-select v-model="org_type_id" placeholder="请选择">
+                        <el-option v-for="item in selectList" :key="item.id" :label="item.name" :value="item.id">
+                        </el-option>
+                    </el-select>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <font style="color:red">*</font>业务类型
+            </el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-select v-model="business_type_ids" multiple placeholder="请选择">
+                        <el-option v-for="item in moreSelectList" :key="item.id" :label="item.name" :value="item.id">
+                        </el-option>
+                    </el-select>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+                <font style="color:red">*</font>客户所属销售人员
+            </el-col>
+            <el-col :span="18">
+                <div class="input-group">
+                    <el-tree :data="data" show-checkbox node-key="id" ref="treeForm" :default-checked-keys="defaultKey"
+                        @check-change="handleClick" :props="defaultProps" check-on-click-node
+                        :expand-on-click-node="false">
+                    </el-tree>
+                </div>
+            </el-col>
+        </el-row>
+    </section>
+    <el-row class="foot-btn">
+        <el-col :span="5" class="empty">
+        </el-col>
+        <el-col :span="3">
+            <el-popover placement="top-start" title="错误" width="200" trigger="manual" :content="popoverContent"
+                v-model="popoverbackVisible">
+                <el-button slot="reference" class="search-btn" type="primary" @click="addPerson('back')">保存并退出
+                </el-button>
+            </el-popover>
+        </el-col>
+        <el-col :span="2" class="empty">
+        </el-col>
+        <el-col :span="3">
+            <el-popover placement="top-start" title="错误" width="200" trigger="manual" :content="popoverContent"
+                v-model="popoverVisible">
+                <el-button slot="reference" class="search-btn" type="primary" @click="addPerson">保存并下一步编辑套餐</el-button>
+            </el-popover>
+        </el-col>
+        <el-col :span="2" class="empty">
+        </el-col>
+        <el-col :span="3">
+            <el-button class="search-btn" @click="back">返回</el-button>
+        </el-col>
+        <el-col :span="6" class="empty">
+        </el-col>
+    </el-row>
+    <!-- Main content -->
+</aside>
+<!-- 不必从fe中引入，方便后边重构迁移 -->
+<script type="text/javascript">
+    let vm = new Vue({
+        el: '#app',
+        delimiters: ['<%', '%>'],
+        data: function () {
+            return {
+                currentPage: 1,
+                ipWhiteList: '0',
+                callbackNotice: '0',
+                emailNotice: '1',//是否开启邮件通知销售
+                topUpChoos: [],
+                secret: '',
+                name: '',
+                token: '',
+                mailToCustomer: '',
+                notifyMail: '',
+                orgTypeId: '',
+                ipAddress: '',
+                money: '',
+                defaultKey: [],
+                moreSelectList: [],
+                selectList: [],
+                data: [],
+                checkedId: '',
+                defaultProps: {
+                    children: 'children',
+                    label: 'name',
+                    disabled: function (data) {
+                        return data.parent
+                    }
+                },
+                is_invest: false,
+                cities: ['首冲', '续费', '修改'],
+                popoverVisible: false,
+                popoverbackVisible: false,
+                popoverContent: '',
+                business_type_ids: '',
+                org_type_id: '',
+
+                amountDemand: 0,
+                amountThreshold: 0,
+                crm_customers: [],
+                crm_customer_id: '',
+                customer_desc: '',
+                notice_customer_price_threshold: 0,
+                notice_price_threshold: 0,
+                customized_flag:'', // 定制化配置标识
+            }
+        },
+        created() {
+        },
+        mounted() {
+            this.getcustomerInfo()
+            this.querySearchAsync()
+        },
+        methods: {
+            //打开和关闭错误的弹窗
+            showpopover(back) {
+                let _self = this;
+                if (back === 'back') {
+                    _self.popoverbackVisible = true;
+                } else {
+                    _self.popoverVisible = true;
+                }
+                //两秒后自动关闭弹窗
+                setTimeout(function () {
+                    _self.popoverVisible = false;
+                    _self.popoverbackVisible = false;
+                }, 2000)
+            },
+            //获取基本参数
+            getcustomerInfo() {
+                let _self = this;
+                _self.loading = true;
+                $.ajax({
+                    type: 'get',
+                    url: '//' + window.baseApi + '/api/rbac_2b_customer/detail',
+                    dataType: 'json',
+                    data: {
+                        customer_id: _self.getQueryVariable('customer_id'),
+                    },
+                    success: function (res) {
+                        if (res.code === 1) {
+                            _self.name = res.data.name;
+                            _self.customer_desc = res.data.customer_desc;
+                            _self.crm_customer_id = res.data.crm_customer_id;
+                            _self.secret = res.data.secret;
+                            _self.token = res.data.token;
+                            _self.ipWhiteList = res.data.ip_white_list;
+                            _self.ipAddress = res.data.ip_address;
+                            _self.callbackNotice = res.data.is_deny_callback;
+                            _self.emailNotice = res.data.mail_to_saler;
+                            _self.org_type_id = res.data.org_type_id;
+                            _self.business_type_ids = res.data.business_type_ids.split(",");
+                            _self.department_id = res.data.department_id;
+                            _self.saler_id = res.data.saler_id;
+                            _self.defaultKey = [res.data.department_id + '_' + res.data.saler_id];
+                            _self.saler_name = res.data.saler_name;
+
+                            _self.amountDemand = res.data.notice_amount_threshold; // 包量套餐
+
+                            _self.amountThreshold = res.data.notice_customer_amount_threshold; // 包量套餐
+                            _self.notice_customer_price_threshold = res.data.notice_customer_price_threshold;  //通知客户：账户余额少于多少元时提醒	
+                            _self.notice_price_threshold = res.data.notice_price_threshold;  //通知销售：账户余额少于多少元时提醒	
+
+
+                            _self.mailToCustomer = res.data.mail_to_customer.split(";").join(";\n")
+                            _self.notifyMail = res.data.notify_mail.split(";").join(";\n")
+                            _self.getDepartmentJobList();
+                            _self.getSelectList();
+                            _self.getMoreSelectList();
+                            _self.is_invest = res.data.is_invest
+                            _self.customized_flag = res.data.customized_flag
+                        } else {
+                            _self.$message.error(res.msg);
+                        }
+                        _self.loading = false;
+                    },
+                    error: function () {
+                        _self.$message.error('请获取组织类型失败');
+                        _self.loading = false;
+                    }
+                })
+            },
+            //获取url后面的参数
+            getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                }
+                return false;
+            },
+            //编辑用户
+            addPerson(back) {
+                let _self = this;
+                _self.loading = true;
+
+                let name = ''
+                this.crm_customers.map(i => {
+                    if (i.crm_customer_id === _self.crm_customer_id) {
+                        name = i.name
+                    }
+                })
+
+                if (!name) {
+                    _self.showpopover(back)
+                    _self.popoverContent = '客户名称必填!';
+                    return
+                }
+                if (!_self.secret) {
+                    _self.showpopover(back)
+                    _self.popoverContent = '密钥必填!';
+                    return
+                }
+                if (_self.ipWhiteList == '1' && !_self.ipAddress) {
+                    _self.showpopover(back)
+                    _self.popoverContent = 'IP 地址必填!';
+                    return
+                }
+                if (_self.topUpChoos.join() && !_self.money) {
+                    _self.showpopover(back)
+                    _self.popoverContent = '首冲金额必填!';
+                    return
+                }
+                
+                if(_self.customized_flag){
+                    let reg = /^[a-zA-Z]+$/
+                    if(!reg.test(_self.customized_flag)){
+                        _self.showpopover(back)
+                        _self.popoverContent = '【定制化配置标识】只能输入英文!';
+                        return
+                    }
+                }
+                if (!_self.org_type_id) {
+                    _self.showpopover(back)
+                    _self.popoverContent = '组织类型必选!';
+                    return
+                }
+                if (_self.business_type_ids.length === 0) {
+                    _self.showpopover(back)
+                    _self.popoverContent = '业务类型必选!';
+                    return
+                }
+                if (!_self.saler_id) {
+                    _self.showpopover(back)
+                    _self.popoverContent = '销售人员必选!';
+                    return
+                }
+                $.ajax({
+                    type: 'post',
+                    url: '//' + window.baseApi + '/api/rbac_2b_customer/edit',
+                    dataType: 'json',
+                    data: {
+                        customer_id: _self.getQueryVariable('customer_id'),
+                        crm_customer_id: _self.crm_customer_id,
+                        name,
+                        customer_desc: _self.customer_desc,
+                        secret: _self.secret,
+                        token: _self.token,
+                        ip_white_list: _self.ipWhiteList,
+                        ip_address: _self.ipAddress,
+                        money_type: _self.topUpChoos.join(),
+                        money: _self.money ? parseFloat(_self.money) : '',
+                        is_deny_callback: _self.callbackNotice,
+                        mail_to_saler: _self.emailNotice,
+                        notify_mail: _self.notifyMail.trim().replace(/[\r\n]/g, ''),
+                        mail_to_customer: _self.mailToCustomer.trim().replace(/[\r\n]/g, ''),
+                        org_type_id: _self.org_type_id,
+                        business_type_ids: _self.business_type_ids,
+                        department_id: _self.department_id,
+                        saler_id: _self.saler_id,
+                        saler_name: _self.saler_name,
+
+                        notice_amount_threshold: _self.amountDemand, // 包量套餐
+                        notice_customer_amount_threshold: _self.amountThreshold, // 包量套餐
+                        notice_customer_price_threshold: _self.notice_customer_price_threshold, //通知客户：账户余额少于多少元时提醒
+                        notice_price_threshold: _self.notice_price_threshold, // 包量套餐
+                        customized_flag: _self.customized_flag, // 定制化配置标识
+                    },
+                    success: function (res) {
+                        if (res.code === 1) {
+                            if (back == 'back') {
+                                window.location.href = '/rbac_2b_customer/view'
+                            } else {
+                                window.location.href = '/rbac_2b_customer/addTwo?customer_id=' + _self.getQueryVariable('customer_id')
+                            }
+                        } else {
+                            _self.showpopover(back)
+                            _self.popoverContent = res.msg;
+                        }
+                        _self.loading = false;
+                    },
+                    error: function () {
+                        _self.showpopover(back)
+                        _self.popoverContent = '保存失败';
+                        _self.loading = false;
+                    }
+                })
+            },
+            //返回上一级页面
+            back() {
+                window.location.href = '/rbac_2b_customer/view'
+            },
+            //客户所属销售人员按钮
+            handleClick(data, checked, node) {
+                if (checked == true && !data.parent) {
+                    this.saler_id = data.master_id;
+                    this.saler_name = data.name;
+                    this.department_id = data.department_id;
+                    this.$refs.treeForm.setCheckedNodes([data]);
+                }
+                if (checked == false && !data.parent && this.saler_id == data.master_id) {
+                    this.saler_id = '';
+                    this.saler_name = '';
+                    this.department_id = '';
+                }
+            },
+
+            // 获取组织类型
+            getSelectList() {
+                let _self = this;
+                _self.loading = true;
+                $.ajax({
+                    type: 'get',
+                    url: '//' + window.baseApi + '/api/common/org_type_lists',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code === 1) {
+                            _self.selectList = res.data
+                        } else {
+                            _self.$message.error(res.msg);
+                        }
+                        _self.loading = false;
+                    },
+                    error: function () {
+                        _self.$message.error('请获取组织类型失败');
+                        _self.loading = false;
+                    }
+                })
+            },
+            //获取业务类型
+            getMoreSelectList() {
+                let _self = this;
+                _self.loading = true;
+                $.ajax({
+                    type: 'get',
+                    url: '//' + window.baseApi + '/api/common/business_type_lists',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code === 1) {
+                            _self.moreSelectList = res.data
+                        } else {
+                            _self.$message.error(res.msg);
+                        }
+                        _self.loading = false;
+                    },
+                    error: function () {
+                        _self.$message.error('请获取业务类型失败');
+                        _self.loading = false;
+                    }
+                })
+            },
+            // 获取销售人员
+            getDepartmentJobList() {
+                let _self = this;
+                _self.loading = true;
+                $.ajax({
+                    type: 'get',
+                    url: '//' + window.baseApi + '/api/rbac_master_department_job/list',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code === 1) {
+                            _self.data = res.data.list
+                        } else {
+                            _self.$message.error(res.msg);
+                        }
+                        _self.loading = false;
+                    },
+                    error: function () {
+                        _self.$message.error('获取销售人员失败');
+                        _self.loading = false;
+                    }
+                })
+            },
+            //获取秘钥
+            getGenerateSecret() {
+                let _self = this;
+                _self.loading = true;
+                $.ajax({
+                    type: 'get',
+                    url: '//' + window.baseApi + '/api/common/generate_secret',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code === 1) {
+                            _self.secret = res.data.secret
+                        } else {
+                            _self.$message.error(res.msg);
+                        }
+                        _self.loading = false;
+                    },
+                    error: function () {
+                        _self.$message.error('获取秘钥失败');
+                        _self.loading = false;
+                    }
+                })
+            },
+            //充值选项按钮
+            cleanCheckbox(e) {
+                if (e.length > 1) {
+                    this.topUpChoos = e.slice(1);
+                }
+            },
+
+            // 获取客户名称
+            querySearchAsync(queryString = '') {
+                $.ajax({
+                    type: 'get',
+                    url: '//' + window.baseApi + '/api/rbac_2b_customer/crm_customer',
+                    dataType: 'json',
+                    data: {
+                        name: queryString,
+                        customer_id: this.getQueryVariable('customer_id'),
+                    },
+                    success: res => {
+                        this.crm_customers = res.data.list
+                    },
+                    error: () => {
+                        this.$message.error('获取失败');
+                    }
+                })
+            },
+            crmChange(v) {
+                this.crm_customer_id = v
+                this.querySearchAsync()
+            }
+        },
+    });
+</script>
+{/block}
